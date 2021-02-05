@@ -36,10 +36,8 @@ minQty = float(info['filters'][2]['minQty'])
 amountOfCoin = rounding(amountOfCoin, minQty)
 
 # buy order
-order = client.create_order(
+order = client.order_market_buy(
     symbol=tradingPair, 
-    side=SIDE_BUY, 
-    type=ORDER_TYPE_MARKET, 
     quantity=amountOfCoin)
 print('Order has been bought!')
 coinOrderInfo           = order["fills"][0]
