@@ -12,8 +12,8 @@ f = open('config.json',)
 data = json.load(f)
 apiKey = data['apiKey']
 apiSecret = data['apiSecret']
-profitMargin = data['profitMargin']
-percentOfWallet = data['percentOfWallet']
+profitMargin = float(data['profitMargin']) / 100
+percentOfWallet = float(data['percentOfWallet']) / 100
 buyLimit = data['buyLimit']
 client = Client(apiKey, apiSecret)
 
@@ -42,8 +42,9 @@ for trade in agg_trade_list:
     total = total + fvalue
 averagePrice = total / len(agg_trade_list)
 minPrice = minQty = float(info['filters'][0]['minPrice'])
-averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 averagePrice = float(averagePrice) * buyLimit
+averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
+
 # buy order
 order = client.order_limit_buy(
     symbol=tradingPair, 
