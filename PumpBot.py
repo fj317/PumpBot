@@ -4,20 +4,16 @@ import time
 from datetime import datetime
 import decimal
 
-def rounding(calcResult, minParam):
-    calcResult = calcResult / minParam
-    if isinstance(calcResult, int) == False:
-        calcResult = round(calcResult) 
-    return calcResult * minParam
-
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
         number, prec=precision,
     ).rstrip('0').rstrip('.') or '0'
 
-#ari keys
+# api keys
 apiKey = ''
 apiSecret = ''
+# max amount for buy limit to pay
+buyLimit = 1.15
 client = Client(apiKey, apiSecret)
 profitMargin = float(input("Profit(%): ")) / 100
 percentOfWallet = float(input("Percent of wallet(%): ")) / 100
@@ -33,21 +29,37 @@ amountOfCoin = BTCtoSell / price;
 # rounding the coin to the specified lot size
 info = client.get_symbol_info(tradingPair)
 minQty = float(info['filters'][2]['minQty'])
-amountOfCoin = rounding(amountOfCoin, minQty)
+amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
-# buy order
-order = client.order_market_buy(
+
+
+# find average price in last 30 mins
+agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='30 minutes ago UTC')
+agg_trade_list = list(agg_trades)
+total = 0
+for trade in agg_trade_list:
+    fvalue = float(trade['p'])
+    total = total + fvalue
+averagePrice = total / len(agg_trade_list)
+minPrice = minQty = float(info['filters'][0]['minPrice'])
+averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
+if (float(averagePrice) < price):
+    averagePrice = averagePrice * buyLimit
+
+# # buy order
+order = client.order_limit_buy(
     symbol=tradingPair, 
-    quantity=amountOfCoin)
+    quantity=amountOfCoin,
+    price=averagePrice)
 print('Order has been bought!')
 coinOrderInfo           = order["fills"][0]
 coinPriceBought         = float(coinOrderInfo['price'])
 coinOrderQty            = float(coinOrderInfo['qty'])
 
 # rounding sell price to correct dp
-minPrice = float(info['filters'][0]['minPrice'])
 priceToSell = coinPriceBought * profitMargin
-roundedPriceToSell = float_to_string(priceToSell)
+#roundedPriceToSell = float_to_string(priceToSell)
+roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 
 # sell order
 order = client.order_limit_sell(
@@ -55,7 +67,8 @@ order = client.order_limit_sell(
     quantity=coinOrderQty,
     price=roundedPriceToSell)
 print('Sell order has been made!')
-print('\nOrder bought at: {}\nSell order made at: {}'.format('{0:.8f}'.format(coinPriceBought), roundedPriceToSell))
+coinPriceBought = float_to_string(coinPriceBought, int(- math.log10(minPrice)))
+print('\nOrder bought at: {}\nSell order made at: {}'.format(coinPriceBought, roundedPriceToSell))
 
 
 
