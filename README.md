@@ -1,12 +1,13 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
  
- To run the bot:
- 1. Enter customisable data in config.json (see below for further details)
- 2. Run python file *pumpbot.py* prior to event
- 3. Enter coin into the bot once it has been given
- 4. Let bot setup buy order and sell order 
- 5. Profit?
+### Quick Setup
+ 1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed
+ 2. Enter customisable data in config.json (see below for further details)
+ 3. Run python file *pumpbot.py* prior to event
+ 4. Enter coin into the bot once it has been given
+ 5. Let bot setup buy order and sell order 
+ 6. Profit?
  
  
  ### Config.JSON
