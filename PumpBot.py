@@ -43,8 +43,7 @@ for trade in agg_trade_list:
 averagePrice = total / len(agg_trade_list)
 minPrice = minQty = float(info['filters'][0]['minPrice'])
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
-averagePrice = averagePrice * buyLimit
-
+averagePrice = float(averagePrice) * buyLimit
 # buy order
 order = client.order_limit_buy(
     symbol=tradingPair, 
@@ -59,6 +58,11 @@ coinOrderQty            = float(coinOrderInfo['qty'])
 priceToSell = coinPriceBought * profitMargin
 #roundedPriceToSell = float_to_string(priceToSell)
 roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
+
+
+orders = client.get_open_orders(symbol=tradingPair)
+while (client.get_open_orders(symbol=tradingPair) != []):
+    print("Waiting for coin to buy...")
 
 # sell order
 order = client.order_limit_sell(
