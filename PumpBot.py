@@ -59,7 +59,7 @@ priceToSell = coinPriceBought * profitMargin
 #roundedPriceToSell = float_to_string(priceToSell)
 roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 
-
+# waits until the buy order has been confirmed 
 orders = client.get_open_orders(symbol=tradingPair)
 while (client.get_open_orders(symbol=tradingPair) != []):
     print("Waiting for coin to buy...")
