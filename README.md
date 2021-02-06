@@ -1,5 +1,6 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
+ Uses [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
  
 ### Quick Setup
  1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed
@@ -20,6 +21,4 @@
  ### Possible Future Features
  - GUI which graphs the price of the selected coin pair in real time. 
  - Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
-
-
-Uses [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
+ - Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
