@@ -43,8 +43,7 @@ for trade in agg_trade_list:
 averagePrice = total / len(agg_trade_list)
 minPrice = minQty = float(info['filters'][0]['minPrice'])
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
-if (float(averagePrice) < price):
-    averagePrice = averagePrice * buyLimit
+averagePrice = averagePrice * buyLimit
 
 # # buy order
 order = client.order_limit_buy(
