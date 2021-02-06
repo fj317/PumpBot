@@ -3,7 +3,7 @@
  
  To run the bot:
  1. Enter customisable data in config.json (see below for further details)
- 2. Run bot prior to event
+ 2. Run python file *pumpbot.py* prior to event
  3. Enter coin into the bot once it has been given
  4. Let bot setup buy order and sell order 
  5. Profit?
