@@ -1,4 +1,5 @@
 from binance.client import Client
+from binance.enums import *
 import math
 import json
 
@@ -15,6 +16,7 @@ apiSecret = data['apiSecret']
 profitMargin = float(data['profitMargin']) / 100
 percentOfWallet = float(data['percentOfWallet']) / 100
 buyLimit = data['buyLimit']
+stopLoss = data['stopLoss']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
@@ -33,6 +35,7 @@ info = client.get_symbol_info(tradingPair)
 minQty = float(info['filters'][2]['minQty'])
 amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
+# ensure buy limit is setup correctly
 # find average price in last 30 mins
 agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='30 minutes ago UTC')
 agg_trade_list = list(agg_trades)
@@ -50,14 +53,13 @@ order = client.order_limit_buy(
     symbol=tradingPair, 
     quantity=amountOfCoin,
     price=averagePrice)
-print('Order has been bought!')
+print('Buy order has been made!')
 coinOrderInfo           = order["fills"][0]
 coinPriceBought         = float(coinOrderInfo['price'])
 coinOrderQty            = float(coinOrderInfo['qty'])
 
 # rounding sell price to correct dp
 priceToSell = coinPriceBought * profitMargin
-#roundedPriceToSell = float_to_string(priceToSell)
 roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 
 # waits until the buy order has been confirmed 
@@ -65,14 +67,14 @@ orders = client.get_open_orders(symbol=tradingPair)
 while (client.get_open_orders(symbol=tradingPair) != []):
     print("Waiting for coin to buy...")
 
-# sell order
-order = client.order_limit_sell(
+# oco order (with stop loss)
+order = client.create_oco_order(
     symbol=tradingPair,
     quantity=coinOrderQty,
-    price=roundedPriceToSell)
+    side = SIDE_SELL,
+    price = roundedPriceToSell,
+    stopPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
+    stopLimitPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
+    stopLimitTimeInForce = TIME_IN_FORCE_GTC
+    )
 print('Sell order has been made!')
-coinPriceBought = float_to_string(coinPriceBought, int(- math.log10(minPrice)))
-print('\nOrder bought at: {}\nSell order made at: {}'.format(coinPriceBought, roundedPriceToSell))
-
-
-
