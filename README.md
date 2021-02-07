@@ -1,9 +1,8 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
- Uses [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
  
 ### Quick Setup
- 1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed
+ 1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed, as well as [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
  2. Enter customisable data in config.json (see below for further details)
  3. Run python file *pumpbot.py* prior to event
  4. Enter coin into the bot once it has been given
