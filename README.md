@@ -13,9 +13,10 @@
  Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows:
  - **apiKey**: enter your own [API key](https://www.binance.com/en/support/articles/360002502072) here 
  - **apiSecret**: enter your own secret API key here
- - **buyLimit**: enter what the maximum price above the average in the last 30 minutes you will be willing to pay. This is done to avoid coins that are pre-pumped (i.e. this avoids you buying the coin at a higher price and then being unable to sell). Default value is 1.15.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
+ - **buyLimit**: enter what the maximum price above the average in the last 30 minutes you will be willing to pay. This is done to avoid coins that are pre-pumped (i.e. this avoids you buying the coin at a higher price and then being unable to sell). Default value is 1.15.
+ - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
  
  ### Possible Future Features
  - GUI which graphs the price of the selected coin pair in real time. 
