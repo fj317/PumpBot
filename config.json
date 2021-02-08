@@ -1,8 +1,8 @@
 {
     "apiKey": "",
     "apiSecret": "",
-    "buyLimit": 1.15,
     "profitMargin": 150,
     "percentOfWallet": 50,
+    "buyLimit": 1.15,
     "stopLoss": 0.9
 }
