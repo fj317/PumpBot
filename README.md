@@ -33,5 +33,6 @@
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
  
  ### Possible Future Features
- - GUI which graphs the price of the selected coin pair in real time. 
- - Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
+ - [ ] GUI which graphs the price of the selected coin pair in real time. 
+ - [ ] Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
+ - [x] Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
