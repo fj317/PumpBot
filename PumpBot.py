@@ -17,13 +17,14 @@ profitMargin = float(data['profitMargin']) / 100
 percentOfWallet = float(data['percentOfWallet']) / 100
 buyLimit = data['buyLimit']
 stopLoss = data['stopLoss']
+coinPair = data['coinPair']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
 BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
 BTCtoSell = BTCBalance * percentOfWallet
 # wait until coin input
-tradingPair = input("Coin: ").upper() + 'BTC'
+tradingPair = input("Coin: ").upper() + coinPair
 
 # get trading pair price
 price = float(client.get_avg_price(symbol=tradingPair)['price'])
