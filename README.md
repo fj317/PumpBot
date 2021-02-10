@@ -31,6 +31,7 @@
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
  - **buyLimit**: enter what the maximum price above the average in the last 30 minutes you will be willing to pay. This is done to avoid coins that are pre-pumped (i.e. this avoids you buying the coin at a higher price and then being unable to sell). Default value is 1.15.
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
+ - **coinPair*: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump).
  
  ### Possible Future Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
