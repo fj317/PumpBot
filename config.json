@@ -4,5 +4,6 @@
     "buyLimit": 1.15,
     "profitMargin": 150,
     "percentOfWallet": 50,
-    "stopLoss": 0.9
+    "stopLoss": 0.9,
+    "coinPair": "BTC"
 }
