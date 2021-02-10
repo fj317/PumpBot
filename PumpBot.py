@@ -23,8 +23,17 @@ client = Client(apiKey, apiSecret)
 # find amount of bitcoin to use
 BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
 BTCtoSell = BTCBalance * percentOfWallet
+# nice user message
+print(''' ___                                ___           _   
+(  _`\                             (  _`\        ( )_ 
+| |_) ) _   _   ___ ___   _ _      | (_) )   _   | ,_)
+| ,__/'( ) ( )/' _ ` _ `\( '_`\    |  _ <' /'_`\ | |  
+| |    | (_) || ( ) ( ) || (_) )   | (_) )( (_) )| |_ 
+(_)    `\___/'(_) (_) (_)| ,__/'   (____/'`\___/'`\__)
+                         | |                          
+                         (_)                          ''')
 # wait until coin input
-tradingPair = input("Coin: ").upper() + coinPair
+tradingPair = input("Coin pair: ").upper() + coinPair
 
 # get trading pair price
 price = float(client.get_avg_price(symbol=tradingPair)['price'])
