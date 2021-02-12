@@ -39,10 +39,11 @@
  ### Possible Future Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
  - [ ] Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
+ - [ ] Bot will check how much BNB your wallet contains, and if below a threshold amount with convert some BTC to BNB to pay for Binance's fees.
  - [x] Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
  
  ### Copyright
 
 PumpBot is licensed under the BSD 2-Clause License.
 
-Copyright (c) 2021 Freddie Jonas.
+Copyright (c) 2021 Freddie Jonas & Ariel Katzir.
