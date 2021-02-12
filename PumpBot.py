@@ -24,7 +24,8 @@ client = Client(apiKey, apiSecret)
 BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
 BTCtoSell = BTCBalance * percentOfWallet
 # nice user message
-print(''' ___                                ___           _   
+print(''' 
+ ___                                ___           _   
 (  _`\                             (  _`\        ( )_ 
 | |_) ) _   _   ___ ___   _ _      | (_) )   _   | ,_)
 | ,__/'( ) ( )/' _ ` _ `\( '_`\    |  _ <' /'_`\ | |  
@@ -40,11 +41,6 @@ price = float(client.get_avg_price(symbol=tradingPair)['price'])
 # calculate amount of coin to buy
 amountOfCoin = BTCtoSell / price;
 
-# rounding the coin to the specified lot size
-info = client.get_symbol_info(tradingPair)
-minQty = float(info['filters'][2]['minQty'])
-amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
-
 # ensure buy limit is setup correctly
 if (buyLimit != 0):
     # find average price in last 30 mins
@@ -57,8 +53,14 @@ if (buyLimit != 0):
     averagePrice = total / len(agg_trade_list)  
 else:
     averagePrice = price
+    buyLimit = 1
 
+# rounding the coin amount to the specified lot size
+info = client.get_symbol_info(tradingPair)
+minQty = float(info['filters'][2]['minQty'])
+amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
+# rounding price to correct dp
 minPrice = minQty = float(info['filters'][0]['minPrice'])
 averagePrice = float(averagePrice) * buyLimit
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
