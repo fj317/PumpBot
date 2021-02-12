@@ -1,7 +1,7 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
  
- Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - **do not invest money you cannot afford to lose**. 
+ Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - **do not invest money you cannot afford to lose**. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.
  
  ### Features
  - Speedy. 
@@ -15,6 +15,7 @@
  - Free
    - Its not costing you $300 like some other bots out there.
    
+ ![Menu Screen](https://github.com/fj317/PumpBot/blob/master/resources/menuScreen.png)  
  
 ### Quick Setup
  1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed, as well as [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
@@ -38,4 +39,11 @@
  ### Possible Future Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
  - [ ] Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
+ - [ ] Bot will check how much BNB your wallet contains, and if below a threshold amount with convert some BTC to BNB to pay for Binance's fees.
  - [x] Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
+ 
+ ### Copyright
+
+PumpBot is licensed under the BSD 2-Clause License.
+
+Copyright (c) 2021 Freddie Jonas & Ariel Katzir.
