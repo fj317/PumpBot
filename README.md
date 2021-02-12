@@ -15,6 +15,7 @@
  - Free
    - Its not costing you $300 like some other bots out there.
    
+ ![Menu Screen](https://github.com/fj317/PumpBot/blob/master/resources/menuScreen.png)  
  
 ### Quick Setup
  1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed, as well as [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
