@@ -1,13 +1,15 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
  
+ Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - **do not invest money you cannot afford to lose**. 
+ 
  ### Features
  - Speedy. 
    - Can create buy and sell orders within a second of entering the coin pair.
  - Stop loss feature. 
    - Means you can set a stop loss sell order to ensure you won't lose too much in case coin never reaches your profit goal.
  - Average price checker. 
-   - Bot checks 30 min average price of coin and creates a buy order at this maximum pre-defined value. This means you won't be buying coins at huge markups from people pre-pumping. NOTE: I would only recommend using this if you have fast internet as it must download all trades that have occured in the last 30 minutes. This means for highly traded coins it will be downloaded a lot of data which slows down your order speed. Set value to 0 in config to turn off feature.
+   - Bot checks 30 min average price of coin and creates a buy order at this maximum pre-defined value. This means you won't be buying coins at huge markups from people pre-pumping. NOTE: I would only recommend using this if you have fast internet as it must download all trades that have occured in the last 30 minutes. This means for highly traded coins it will be downloading a lot of data which slows down your order speed down. Set value to 0 in config to turn off feature.
  - Simple to use.
    - Easy to setup with a customisable config file.
  - Free
