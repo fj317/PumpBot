@@ -19,7 +19,7 @@ except:
     None
 
 #  getting recent trades
-client = Client("wDPuqBa0zeqQRHE26takNQ5G9jLyyFkWxisrheBqmxHDhz4RPcNzR8bPLg4E4Gka", "NwUcys7q7NLPl1ISoIAB97wyAjGNOc2Kw3nJqRJ8BwzFO4ERAsCqdOnK1eDzaPQk")
+client = Client("", "")
 agg_trades = client.aggregate_trade_iter(symbol='ETHBTC', start_str='10 seconds ago UTC')
 
 # extracting the date and price
@@ -45,7 +45,7 @@ with open('recent_trades.csv', 'w',newline='') as csvfile:
 df = pd.read_csv('recent_trades.csv')
 sns.lineplot(x="Time(UTC)", y="Price(BTC)", data=df, markers=True)
 
-priceBought = ....
+priceBought = 
 
 # draw line
 plt.axhline(y = priceBought , color = 'r')
