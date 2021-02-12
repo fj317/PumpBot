@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve & help you
+about: If an unexpected error is given, post it here with a description of how you made it.
 title: ''
 labels: ''
 assignees: ''
