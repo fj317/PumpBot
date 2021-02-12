@@ -46,14 +46,19 @@ minQty = float(info['filters'][2]['minQty'])
 amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
 # ensure buy limit is setup correctly
-# find average price in last 30 mins
-agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='30 minutes ago UTC')
-agg_trade_list = list(agg_trades)
-total = 0
-for trade in agg_trade_list:
-    fvalue = float(trade['p'])
-    total = total + fvalue
-averagePrice = total / len(agg_trade_list)
+if (buyLimit != 0):
+    # find average price in last 30 mins
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='30 minutes ago UTC')
+    agg_trade_list = list(agg_trades)
+    total = 0
+    for trade in agg_trade_list:
+        fvalue = float(trade['p'])
+        total = total + fvalue
+    averagePrice = total / len(agg_trade_list)  
+else:
+    averagePrice = price
+
+
 minPrice = minQty = float(info['filters'][0]['minPrice'])
 averagePrice = float(averagePrice) * buyLimit
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
