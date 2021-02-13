@@ -22,7 +22,7 @@
  1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed, as well as [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
  2. Download the [bot](https://github.com/fj317/PumpBot/archive/master.zip).
  3. Enter customisable data in config.json (see below for further details)
- 4. Run python file *pumpbot.py* prior to event
+ 4. Run python file on the terminal with the command 'python3 PumpBot.py' prior to event
  5. Enter coin into the bot once it has been given
  6. Let bot setup buy order and sell order 
  7. Profit?
