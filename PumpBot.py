@@ -19,6 +19,7 @@ percentOfWallet = float(data['percentOfWallet']) / 100
 buyLimit = data['buyLimit']
 stopLoss = data['stopLoss']
 coinPair = data['coinPair']
+getPastTrades = data['getPastTrades']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
@@ -56,9 +57,9 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if (buyLimit != 0):
-    # find average price in last 30 mins
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='30 minutes ago UTC')
+if(getPastTrades == "TRUE"):
+    # find average price in last 2 mins
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='2 minutes ago UTC')
     agg_trade_list = list(agg_trades)
     total = 0
     for trade in agg_trade_list:
@@ -67,7 +68,6 @@ if (buyLimit != 0):
     averagePrice = total / len(agg_trade_list)  
 else:
     averagePrice = price
-    buyLimit = 1
 
 # rounding the coin amount to the specified lot size
 info = client.get_symbol_info(tradingPair)
@@ -97,6 +97,9 @@ except Exception as d:
     print(d)
     print("An unknown error has occured.")
     quit()
+
+print('Processing sell order.')
+
 
 # rounding sell price to correct dp
 priceToSell = coinPriceBought * profitMargin
