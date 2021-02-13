@@ -1,5 +1,6 @@
 from binance.client import Client
 from binance.enums import *
+from binance.exceptions import *
 import math
 import json
 
@@ -37,7 +38,20 @@ print('''
 tradingPair = input("Coin pair: ").upper() + coinPair
 
 # get trading pair price
-price = float(client.get_avg_price(symbol=tradingPair)['price'])
+try: 
+    rice = float(client.get_avg_price(symbol=tradingPair)['price'])
+except BinanceAPIException as e:
+    if e.code == -1121:
+        print("Invalid trading pair given. Check your input is correct as well as config.json's 'tradingPair' value to correct error.")
+    else:
+        print("A BinanceAPI error has occured. Code = " + str(e.code))
+        print(e.message + " Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find greater details on error codes before raising an issue.")
+    quit()
+except Exception as d:
+    print(d)
+    print("An unknown error has occured.")
+    quit()
+
 # calculate amount of coin to buy
 amountOfCoin = BTCtoSell / price;
 
@@ -65,15 +79,24 @@ minPrice = minQty = float(info['filters'][0]['minPrice'])
 averagePrice = float(averagePrice) * buyLimit
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 
-# buy order
-order = client.order_limit_buy(
-    symbol=tradingPair, 
-    quantity=amountOfCoin,
-    price=averagePrice)
-print('Buy order has been made!')
-coinOrderInfo           = order["fills"][0]
-coinPriceBought         = float(coinOrderInfo['price'])
-coinOrderQty            = float(coinOrderInfo['qty'])
+try:
+    # buy order
+    order = client.order_limit_buy(
+        symbol=tradingPair, 
+        quantity=amountOfCoin,
+        price=averagePrice)
+    print('Buy order has been made!')
+    coinOrderInfo           = order["fills"][0]
+    coinPriceBought         = float(coinOrderInfo['price'])
+    coinOrderQty            = float(coinOrderInfo['qty'])
+except BinanceAPIException as e:
+    print("A BinanceAPI error has occured. Code = " + str(e.code))
+    print(e.message + " Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find greater details on error codes before raising an issue.")
+    quit()
+except Exception as d:
+    print(d)
+    print("An unknown error has occured.")
+    quit()
 
 # rounding sell price to correct dp
 priceToSell = coinPriceBought * profitMargin
@@ -84,14 +107,24 @@ orders = client.get_open_orders(symbol=tradingPair)
 while (client.get_open_orders(symbol=tradingPair) != []):
     print("Waiting for coin to buy...")
 
-# oco order (with stop loss)
-order = client.create_oco_order(
-    symbol=tradingPair,
-    quantity=coinOrderQty,
-    side = SIDE_SELL,
-    price = roundedPriceToSell,
-    stopPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
-    stopLimitPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
-    stopLimitTimeInForce = TIME_IN_FORCE_GTC
-    )
+try:
+    # oco order (with stop loss)
+    order = client.create_oco_order(
+        symbol=tradingPair,
+        quantity=coinOrderQty,
+        side = SIDE_SELL,
+        price = roundedPriceToSell,
+        stopPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
+        stopLimitPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
+        stopLimitTimeInForce = TIME_IN_FORCE_GTC
+        )
+except BinanceAPIException as e:
+    print("A BinanceAPI error has occured. Code = " + str(e.code))
+    print(e.message + " Please use https://binance-docs.github.io/apidocs/spot/en/#error-codes to find greater details on error codes before raising an issue.")
+    quit()
+except Exception as d:
+    print(d)
+    print("An unknown error has occured.")
+    quit()
+
 print('Sell order has been made!')
