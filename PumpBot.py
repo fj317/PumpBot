@@ -39,7 +39,7 @@ tradingPair = input("Coin pair: ").upper() + coinPair
 
 # get trading pair price
 try: 
-    rice = float(client.get_avg_price(symbol=tradingPair)['price'])
+    price = float(client.get_avg_price(symbol=tradingPair)['price'])
 except BinanceAPIException as e:
     if e.code == -1121:
         print("Invalid trading pair given. Check your input is correct as well as config.json's 'tradingPair' value to correct error.")
@@ -53,7 +53,7 @@ except Exception as d:
     quit()
 
 # calculate amount of coin to buy
-amountOfCoin = BTCtoSell / price;
+amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
 if (buyLimit != 0):
