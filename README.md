@@ -1,8 +1,6 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
  
- Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
- 
  ### Features
  - Speedy. 
    - Can create buy and sell orders within a second of entering the coin pair.
@@ -15,9 +13,13 @@
    - Easy to setup with a customisable config file.
  - Free
    - Its not costing you $300 like some other bots out there.
-   
- ![Menu Screen](https://github.com/fj317/PumpBot/blob/master/resources/menuScreen.png)  
+ - Regular updates with good support.
  
+   ![Menu Screen](https://github.com/fj317/PumpBot/blob/master/resources/menuScreen.png)  
+ 
+ Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
+ 
+    
 ### Quick Setup
  1. Ensure you have the most recent of [Python](https://www.python.org/downloads/) installed, as well as [sammchardy's Python Binance API](https://github.com/sammchardy/python-binance).
  2. Download the [bot](https://github.com/fj317/PumpBot/archive/master.zip).
