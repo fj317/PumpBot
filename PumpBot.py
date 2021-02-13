@@ -23,7 +23,11 @@ getPastTrades = data['getPastTrades']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
-BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
+try:
+    BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
+except:
+    print("Invalid API keys.")
+    quit()
 BTCtoSell = BTCBalance * percentOfWallet
 # nice user message
 print(''' 
