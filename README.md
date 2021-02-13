@@ -1,7 +1,7 @@
 # PumpBot
  A bot to use in a pump & dump event on Binance.com.
  
- Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - **do not invest money you cannot afford to lose**. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.
+ Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
  
  ### Features
  - Speedy. 
@@ -33,9 +33,10 @@
  - **apiSecret**: enter your own secret API key here. This is a required value.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
- - **buyLimit**: enter what the maximum price above the average in the last 30 minutes you will be willing to pay. This is done to avoid coins that are pre-pumped (i.e. this avoids you buying the coin at a higher price and then being unable to sell). Set to 0 to disable feature. Default value is 1.15. 
+ - **buyLimit**: enter what maximum percentage increase you are willing to pay for the crpyto coin. Eg 1.2 means you are willing to pay up to 1.2x the price of the coin to secure it. Default value is 1.15.
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
+ - **getPastTrades**: if set to true, it will get ALL trading data for the trading pair for the last 2 minutes and find an average price for the coin. This avoids you buying pre-pumped coins. WARNING: It must download a lot of data (it took 5-7 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection. Default value is set to FALSE.
  
  ### Possible Future Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
