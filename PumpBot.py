@@ -22,7 +22,6 @@ stopLoss = data['stopLoss']
 coinPair = data['coinPair']
 getAveragePrice = data['getAveragePrice']
 minutesAveragePrice = data['minutesAveragePrice']
-openBinanceWeb = data['openBinanceWeb']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
@@ -139,5 +138,4 @@ except Exception as d:
 
 print('Sell order has been made!')
 # open binance page to trading pair
-if (openBinanceWeb == "TRUE"):
-    webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
+webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)

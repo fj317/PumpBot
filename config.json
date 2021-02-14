@@ -7,6 +7,5 @@
     "stopLoss": 0.90,
     "coinPair": "BTC",
     "getAveragePrice": "FALSE",
-    "minutesAveragePrice": "2",
-    "openBinanceWeb": "FALSE"
+    "minutesAveragePrice": "2"
 }
