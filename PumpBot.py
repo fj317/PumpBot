@@ -3,7 +3,6 @@ from binance.enums import *
 from binance.exceptions import *
 import math
 import json
-import webbrowser
 
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
@@ -20,9 +19,7 @@ percentOfWallet = float(data['percentOfWallet']) / 100
 buyLimit = data['buyLimit']
 stopLoss = data['stopLoss']
 coinPair = data['coinPair']
-getAveragePrice = data['getPastTrades']
-minutesAveragePrice = data['minutesAveragePrice']
-openBinanceWeb = data['openBinanceWeb']
+getPastTrades = data['getPastTrades']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
@@ -64,9 +61,9 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if(getAveragePrice == "TRUE"):
+if(getPastTrades == "TRUE"):
     # find average price in last 2 mins
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=minutesAveragePrice + " minutes ago UTC")
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='2 minutes ago UTC')
     agg_trade_list = list(agg_trades)
     total = 0
     for trade in agg_trade_list:
@@ -138,6 +135,3 @@ except Exception as d:
     quit()
 
 print('Sell order has been made!')
-# open binance page to trading pair
-if (openBinanceWeb == "TRUE"):
-    webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
