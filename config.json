@@ -6,6 +6,7 @@
     "percentOfWallet": 50,
     "stopLoss": 0.90,
     "coinPair": "BTC",
-    "getPastTrades": "FALSE",
+    "getAveragePrice": "FALSE",
+    "minutesAveragePrice": "2",
     "openBinanceWeb": "FALSE"
 }
