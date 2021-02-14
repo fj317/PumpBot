@@ -20,7 +20,8 @@ percentOfWallet = float(data['percentOfWallet']) / 100
 buyLimit = data['buyLimit']
 stopLoss = data['stopLoss']
 coinPair = data['coinPair']
-getPastTrades = data['getPastTrades']
+getAveragePrice = data['getPastTrades']
+minutesAveragePrice = data['minutesAveragePrice']
 openBinanceWeb = data['openBinanceWeb']
 client = Client(apiKey, apiSecret)
 
@@ -63,9 +64,9 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if(getPastTrades == "TRUE"):
+if(getAveragePrice == "TRUE"):
     # find average price in last 2 mins
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str='2 minutes ago UTC')
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=minutesAveragePrice + " minutes ago UTC")
     agg_trade_list = list(agg_trades)
     total = 0
     for trade in agg_trade_list:
