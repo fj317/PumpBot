@@ -37,11 +37,15 @@
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
  - **getPastTrades**: if set to true, it will get ALL trading data for the trading pair for the last 2 minutes and find an average price for the coin. This avoids you buying pre-pumped coins. WARNING: It must download a lot of data (it took 5-7 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection. Default value is set to FALSE.
  
- ### Possible Future Features
+ ### Work in Progress Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
  - [ ] Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
  - [ ] Bot will check how much BNB your wallet contains, and if below a threshold amount with convert some BTC to BNB to pay for Binance's fees.
  - [x] Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
+ - [x] Bot opens Binance trading page for the trading pair at end of execution. Suggested by @ezanchi.
+ - [] Add ability to override config.json data by entering arguments on the command line when starting program. Suggested by @ezanchi.
+ - [] User can enter BTC amount's directly in config.json rather than using percentOfWallet parameter. Suggested by @ezanchi.
+ - [] Pre Pump Detection. Suggested by @ernestonee.
  
  ### Disclaimer
  Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
