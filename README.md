@@ -43,9 +43,9 @@
  - [ ] Bot will check how much BNB your wallet contains, and if below a threshold amount with convert some BTC to BNB to pay for Binance's fees.
  - [x] Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
  - [x] Bot opens Binance trading page for the trading pair at end of execution. Suggested by @ezanchi.
- - [] Add ability to override config.json data by entering arguments on the command line when starting program. Suggested by @ezanchi.
- - [] User can enter BTC amount's directly in config.json rather than using percentOfWallet parameter. Suggested by @ezanchi.
- - [] Pre Pump Detection. Suggested by @ernestonee.
+ - [ ] Add ability to override config.json data by entering arguments on the command line when starting program. Suggested by @ezanchi.
+ - [ ] User can enter BTC amount's directly in config.json rather than using percentOfWallet parameter. Suggested by @ezanchi.
+ - [ ] Pre Pump Detection. Suggested by @ernestonee.
  
  ### Disclaimer
  Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
