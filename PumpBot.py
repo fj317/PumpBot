@@ -3,6 +3,7 @@ from binance.enums import *
 from binance.exceptions import *
 import math
 import json
+import webbrowser
 
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
@@ -135,3 +136,5 @@ except Exception as d:
     quit()
 
 print('Sell order has been made!')
+# open binance page to trading pair
+webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
