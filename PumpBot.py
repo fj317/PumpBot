@@ -21,6 +21,7 @@ buyLimit = data['buyLimit']
 stopLoss = data['stopLoss']
 coinPair = data['coinPair']
 getPastTrades = data['getPastTrades']
+openBinanceWeb = data['openBinanceWeb']
 client = Client(apiKey, apiSecret)
 
 # find amount of bitcoin to use
@@ -137,4 +138,5 @@ except Exception as d:
 
 print('Sell order has been made!')
 # open binance page to trading pair
-webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
+if (openBinanceWeb):
+    webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
