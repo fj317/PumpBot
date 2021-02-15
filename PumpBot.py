@@ -55,7 +55,7 @@ print('''
                          (_)                          ''')
 # wait until coin input
 print("Investing amount for BTC: {}".format(BTCtoSell))
-print("Investing amount for USD: {}".format(in_USD*BTCtoSell))
+print("Investing amount in USD: {}".format(float_to_string((in_USD*BTCtoSell), 2)))
 
 tradingPair = input("Coin pair: ").upper() + coinPair
 
