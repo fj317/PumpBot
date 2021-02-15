@@ -3,7 +3,7 @@
     "apiSecret": "",
     "coinPair": "BTC",
     "minutesAveragePrice": 2,
-    "overpriceLimit": 1.15,
+    "buyLimit": 1.15,
     "percentOfWallet": 50,
     "manualBTC": 0.00000000,
     "profitMargin": 150,

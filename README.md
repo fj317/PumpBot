@@ -33,7 +33,7 @@
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
  - **minutesAveragePrice**: if greater than 0 (no decimals), it will get ALL trading data for the trading pair for the last X minutes and find an average price for the coin. This avoids you buying pre-pumped coins. Default value is set to 2. If set to 0 it wont download data.
    - WARNING: It must download a lot of data (it took myself 2 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection.
- - **overpriceLimit**: enter what maximum percentage increase you are willing to pay for the crpyto coin. Eg 1.2 means you are willing to pay up to 1.2x the price of the coin to secure it. Default value is 1.15.
+ - **buyLimit**: enter the price for the Limit Buy order you will pay in relation to the current price of the coin when it is entered into the program. Eg 1.2 means you are will pay 1.2x the price of the coin to secure it. Default value is 1.15.
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
  - **manualBTC**: enter the exact amount of BTC you want use when placing buy order. If 0 then the percentOfWallet parameter will be used instead. Default value is 0.0.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)

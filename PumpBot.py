@@ -18,7 +18,7 @@ apiKey = data['apiKey']
 apiSecret = data['apiSecret']
 coinPair = data['coinPair']
 minutesAveragePrice = float(data['minutesAveragePrice'])
-overpriceLimit = data['overpriceLimit']
+buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
 manualBTC = float(data['manualBTC'])
 profitMargin = float(data['profitMargin']) / 100
@@ -97,7 +97,7 @@ amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
 # rounding price to correct dp
 minPrice = minQty = float(info['filters'][0]['minPrice'])
-averagePrice = float(averagePrice) * overpriceLimit
+averagePrice = float(averagePrice) * buyLimit
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 
 try:
