@@ -46,6 +46,7 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
+print("Investing amount: "+BTCtoSell+" BTC");
 tradingPair = input("Coin pair: ").upper() + coinPair
 
 # get trading pair price
