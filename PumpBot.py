@@ -4,6 +4,7 @@ from binance.exceptions import *
 import math
 import json
 import webbrowser
+import requests
 
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
@@ -24,6 +25,11 @@ coinPair = data['coinPair']
 getAveragePrice = data['getAveragePrice']
 minutesAveragePrice = data['minutesAveragePrice']
 client = Client(apiKey, apiSecret)
+
+# Getting btc conversion
+response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+data = response.json()
+in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
@@ -47,7 +53,9 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("Investing amount: {} BTC".format(BTCtoSell));
+print("Investing amount for BTC: {}".format(BTCtoSell))
+print("Investing amount for USD: {}".format(in_USD*BTCtoSell))
+
 tradingPair = input("Coin pair: ").upper() + coinPair
 
 # get trading pair price
