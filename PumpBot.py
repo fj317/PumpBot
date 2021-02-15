@@ -31,6 +31,7 @@ try:
 except:
     print("Invalid API keys.")
     quit()
+# decide if use percentage or manual amount
 if (manualBTC <= 0):
     BTCtoSell = BTCBalance * percentOfWallet
 else:
