@@ -156,4 +156,4 @@ print('Sell order has been made!')
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
 # wait for Enter to close
-input("/nPress Enter to Exit...")
+input("\nPress Enter to Exit...")
