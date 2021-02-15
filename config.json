@@ -1,12 +1,11 @@
 {
     "apiKey": "",
     "apiSecret": "",
-    "buyLimit": 1.15,
-    "profitMargin": 150,
+    "coinPair": "BTC",
+    "minutesAveragePrice": 2,
+    "overpriceLimit": 1.15,
     "percentOfWallet": 50,
     "manualBTC": 0.00000000,
-    "stopLoss": 0.90,
-    "coinPair": "BTC",
-    "getAveragePrice": "FALSE",
-    "minutesAveragePrice": "2"
+    "profitMargin": 150,
+    "stopLoss": 0.90
 }

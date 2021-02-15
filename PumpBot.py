@@ -16,14 +16,15 @@ f = open('config.json',)
 data = json.load(f)
 apiKey = data['apiKey']
 apiSecret = data['apiSecret']
-profitMargin = float(data['profitMargin']) / 100
+coinPair = data['coinPair']
+minutesAveragePrice = float(data['minutesAveragePrice'])
+overpriceLimit = data['overpriceLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
 manualBTC = float(data['manualBTC'])
-buyLimit = data['buyLimit']
-stopLoss = data['stopLoss']
-coinPair = data['coinPair']
-getAveragePrice = data['getAveragePrice']
-minutesAveragePrice = data['minutesAveragePrice']
+profitMargin = float(data['profitMargin']) / 100
+stopLoss = float(data['stopLoss'])
+
+# create binance Client
 client = Client(apiKey, apiSecret)
 
 # Getting btc conversion
@@ -77,9 +78,9 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if(getAveragePrice == "TRUE"):
-    # find average price in last 2 mins
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=minutesAveragePrice + " minutes ago UTC")
+if(minutesAveragePrice > 0):
+    # find average price in last X mins
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=str(minutesAveragePrice) + " minutes ago UTC")
     agg_trade_list = list(agg_trades)
     total = 0
     for trade in agg_trade_list:
@@ -96,7 +97,7 @@ amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
 # rounding price to correct dp
 minPrice = minQty = float(info['filters'][0]['minPrice'])
-averagePrice = float(averagePrice) * buyLimit
+averagePrice = float(averagePrice) * overpriceLimit
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 
 try:
