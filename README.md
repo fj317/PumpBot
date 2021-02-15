@@ -28,8 +28,6 @@
  
  ### Config.JSON
  Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows:
- - **apiKey**: enter your own [API key](https://www.binance.com/en/support/articles/360002502072) here. This is a required value.
- - **apiSecret**: enter your own secret API key here. This is a required value.
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
  - **minutesAveragePrice**: if greater than 0 (no decimals), it will get ALL trading data for the trading pair for the last X minutes and find an average price for the coin. This avoids you buying pre-pumped coins. If set to 0 it will not download this data. Default value is set to 0.
    - WARNING: It must download a lot of data (it took myself 2 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection.
@@ -38,6 +36,11 @@
  - **manualBTC**: enter the exact amount of BTC you want use when placing buy order. If 0 then the percentOfWallet parameter will be used instead. Default value is 0.0.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
+ 
+ ### Keys.json
+ Keys.json is where you enter your Binance's API keys. These can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them.
+ - **apiKey**: enter your own API key here.
+ - **apiSecret**: enter your own secret API key here.
  
  ### Work in Progress Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
