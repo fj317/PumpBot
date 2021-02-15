@@ -5,28 +5,40 @@ import math
 import json
 import webbrowser
 import requests
+import os
 
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
         number, prec=precision,
     ).rstrip('0').rstrip('.') or '0'
 
-# read json file
-f = open('keys.json',)
-data = json.load(f)
-apiKey = data['apiKey']
-apiSecret = data['apiSecret']
 
-f = open('config.json',)
-data = json.load(f)
-coinPair = data['coinPair']
-minutesAveragePrice = float(data['minutesAveragePrice'])
-buyLimit = data['buyLimit']
-percentOfWallet = float(data['percentOfWallet']) / 100
-manualBTC = float(data['manualBTC'])
-profitMargin = float(data['profitMargin']) / 100
-stopLoss = float(data['stopLoss'])
-
+configFiles = ["default-config.json","config.json"]
+if (os.path.exists(configFiles[1])):
+    # read json files
+    for file in configFiles:
+        f = open(file,)
+        data = json.load(f)
+        if('apiKey' in data): apiKey = data['apiKey']
+        if('apiSecret' in data): apiSecret = data['apiSecret']
+        if('coinPair' in data): coinPair = data['coinPair']
+        if('minutesAveragePrice' in data): minutesAveragePrice = float(data['minutesAveragePrice'])
+        if('buyLimit' in data): buyLimit = data['buyLimit']
+        if('percentOfWallet' in data): percentOfWallet = float(data['percentOfWallet']) / 100
+        if('manualBTC' in data): manualBTC = float(data['manualBTC'])
+        if('profitMargin' in data): profitMargin = float(data['profitMargin']) / 100
+        if('stopLoss' in data): stopLoss = float(data['stopLoss'])
+        f.close()
+else:
+    # if no custom config file creted, make one
+    d = open(configFiles[0])
+    c = open(configFiles[1],"w+")
+    c.write(d.read())
+    c.close()
+    d.close()
+    print("\nNo custom Config file detected. We just created one for you. Change settings as you like.\n")
+    quit()
+    
 # create binance Client
 client = Client(apiKey, apiSecret)
 

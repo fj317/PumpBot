@@ -1,5 +1,7 @@
 {
-    "coinPair": "BTC",
+    "apiKey": "",
+    "apiSecret": "",
+	"coinPair": "BTC",
     "minutesAveragePrice": 0,
     "buyLimit": 1.15,
     "percentOfWallet": 50,
