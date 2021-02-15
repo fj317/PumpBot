@@ -15,7 +15,7 @@ def float_to_string(number, precision=10):
 # make log file
 l = open("log.txt","w+")
 def log(info):
-    l.writeline(info)
+    l.writelines(info)
     
     
 
@@ -42,6 +42,7 @@ else:
     c.write(d.read())
     c.close()
     d.close()
+    log("No custom File. Making one")
     print("\nNo custom Config file detected. We just created one for you. Change settings as you like.\n")
     quit()
     
