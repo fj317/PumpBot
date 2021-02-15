@@ -153,3 +153,6 @@ except Exception as d:
 print('Sell order has been made!')
 # open binance page to trading pair
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
+
+# wait for Enter to close
+input("Press Enter to Exit")
