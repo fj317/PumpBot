@@ -16,14 +16,15 @@ f = open('config.json',)
 data = json.load(f)
 apiKey = data['apiKey']
 apiSecret = data['apiSecret']
-profitMargin = float(data['profitMargin']) / 100
+coinPair = data['coinPair']
+minutesAveragePrice = float(data['minutesAveragePrice'])
+buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
 manualBTC = float(data['manualBTC'])
-buyLimit = data['buyLimit']
-stopLoss = data['stopLoss']
-coinPair = data['coinPair']
-getAveragePrice = data['getAveragePrice']
-minutesAveragePrice = data['minutesAveragePrice']
+profitMargin = float(data['profitMargin']) / 100
+stopLoss = float(data['stopLoss'])
+
+# create binance Client
 client = Client(apiKey, apiSecret)
 
 # Getting btc conversion
@@ -77,9 +78,9 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if(getAveragePrice == "TRUE"):
-    # find average price in last 2 mins
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=minutesAveragePrice + " minutes ago UTC")
+if(minutesAveragePrice > 0):
+    # find average price in last X mins
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=str(minutesAveragePrice) + " minutes ago UTC")
     agg_trade_list = list(agg_trades)
     total = 0
     for trade in agg_trade_list:
@@ -153,3 +154,6 @@ except Exception as d:
 print('Sell order has been made!')
 # open binance page to trading pair
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
+
+# wait for Enter to close
+input("\nPress Enter to Exit...")
