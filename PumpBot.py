@@ -12,10 +12,13 @@ def float_to_string(number, precision=10):
     ).rstrip('0').rstrip('.') or '0'
 
 # read json file
-f = open('config.json',)
+f = open('keys.json',)
 data = json.load(f)
 apiKey = data['apiKey']
 apiSecret = data['apiSecret']
+
+f = open('config.json',)
+data = json.load(f)
 coinPair = data['coinPair']
 minutesAveragePrice = float(data['minutesAveragePrice'])
 buyLimit = data['buyLimit']
@@ -130,6 +133,9 @@ roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 orders = client.get_open_orders(symbol=tradingPair)
 while (client.get_open_orders(symbol=tradingPair) != []):
     print("Waiting for coin to buy...")
+
+print(roundedPriceToSell)
+print(float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))))
 
 try:
     # oco order (with stop loss)
