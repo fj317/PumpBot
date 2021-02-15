@@ -17,6 +17,7 @@ apiKey = data['apiKey']
 apiSecret = data['apiSecret']
 profitMargin = float(data['profitMargin']) / 100
 percentOfWallet = float(data['percentOfWallet']) / 100
+manualBTC = float(data['manualBTC'])
 buyLimit = data['buyLimit']
 stopLoss = data['stopLoss']
 coinPair = data['coinPair']
@@ -30,7 +31,11 @@ try:
 except:
     print("Invalid API keys.")
     quit()
-BTCtoSell = BTCBalance * percentOfWallet
+# decide if use percentage or manual amount
+if (manualBTC <= 0):
+    BTCtoSell = BTCBalance * percentOfWallet
+else:
+    BTCtoSell = manualBTC
 # nice user message
 print(''' 
  ___                                ___           _   
@@ -42,6 +47,7 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
+print("Investing amount: {} BTC".format(BTCtoSell));
 tradingPair = input("Coin pair: ").upper() + coinPair
 
 # get trading pair price

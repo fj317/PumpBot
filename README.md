@@ -32,6 +32,7 @@
  - **apiSecret**: enter your own secret API key here. This is a required value.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
+ - **manualBTC**: if bigger than 0 the bot will use this specific amount of BTC when placing the buy order. Use point(".") as decimal marker.
  - **buyLimit**: enter what maximum percentage increase you are willing to pay for the crpyto coin. Eg 1.2 means you are willing to pay up to 1.2x the price of the coin to secure it. Default value is 1.15.
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
