@@ -36,7 +36,8 @@
  - **buyLimit**: enter what maximum percentage increase you are willing to pay for the crpyto coin. Eg 1.2 means you are willing to pay up to 1.2x the price of the coin to secure it. Default value is 1.15.
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
- - **getAveragePrice**: if set to TRUE, it will get ALL trading data for the trading pair for the last X minutes (X is the number defined by 'minutesAveragePrice' parameter) and find an average price for the coin. This avoids you buying pre-pumped coins. WARNING: It must download a lot of data (it took 5-7 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection. Default value is set to FALSE.
+ - **getAveragePrice**: if set to TRUE, it will get ALL trading data for the trading pair for the last X minutes (X is the number defined by 'minutesAveragePrice' parameter) and find an average price for the coin. This avoids you buying pre-pumped coins. Default value is set to FALSE.
+   - WARNING: It must download a lot of data (it took myself 2 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection.
  - **minutesAveragePrice**: sets how many minutes to download the data to calculate the average price for the coin. Default is 2 minutes.
  
  ### Work in Progress Features
