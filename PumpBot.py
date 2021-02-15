@@ -12,6 +12,12 @@ def float_to_string(number, precision=10):
         number, prec=precision,
     ).rstrip('0').rstrip('.') or '0'
 
+# make log file
+l = open("log.txt","w+")
+def log(info):
+    l.writeline(info)
+    
+    
 
 configFiles = ["default-config.json","config.json"]
 if (os.path.exists(configFiles[1])):
@@ -175,3 +181,6 @@ webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
 # wait for Enter to close
 input("\nPress Enter to Exit...")
+
+# close Log file
+l.close()
