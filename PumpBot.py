@@ -24,7 +24,8 @@ try:
     f = open('keys.json', )
 except FileNotFoundError:
     log("Keys.json not found")
-    sys.exit("Remember to rename your keys.json.example to keys.json.")
+    sys.exit("keys.json file not found\n"
+    "Remember to rename your keys.json.example to keys.json.")
     
 data = json.load(f)
 apiKey = data['apiKey']
