@@ -58,6 +58,9 @@
  - Push to the changes (git push)
  - Create a new Pull Request
  
+Thank you for your contributions...
+- @ezanchi
+
  ### Disclaimer
  Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
  
