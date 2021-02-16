@@ -7,7 +7,6 @@ import json
 import requests
 import webbrowser
 
-
 # UTILS
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
@@ -17,7 +16,6 @@ def float_to_string(number, precision=10):
 
 def log(information):
     logfile.writelines(information)
-
 
 # make log file
 logfile = open("log.txt", "w+")
