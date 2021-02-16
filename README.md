@@ -27,13 +27,16 @@
  7. Profit?
  
  ### Config.JSON
- Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows:
- Your Binance's API keys can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them.
+ Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows: 
+ 
+ Your Binance's API keys can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them: 
  - **apiKey**: enter your own API key here.
  - **apiSecret**: enter your own secret API key here.
+
+
  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
- - **minutesAveragePrice**: if greater than 0 (no decimals), it will get ALL trading data for the trading pair for the last X minutes and find an average price for the coin. This avoids you buying pre-pumped coins. If set to 0 it will not download this data. Default value is set to 0.
-   - WARNING: It must download a lot of data (it took myself 2 seconds to download BNBBTC's trading data) so I would not recommend it unless you have good, fast Internet connection.
+ - **secondsAveragePrice**: if greater than 0 (no decimals), it will get ALL trading data for the trading pair for the last X seconds and find an average price for the coin. This avoids you buying pre-pumped coins. If set to 0 it will not download this data. Default value is set to 0.
+   - WARNING: It must download a lot of data so I would not recommend it unless you have good, fast Internet connection.
  - **buyLimit**: enter the price for the Limit Buy order you will pay in relation to the current price of the coin when it is entered into the program. Eg 1.2 means you are will pay 1.2x the price of the coin to secure it. Default value is 1.15.
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
  - **manualBTC**: enter the exact amount of BTC you want use when placing buy order. If 0 then the percentOfWallet parameter will be used instead. Default value is 0.0.

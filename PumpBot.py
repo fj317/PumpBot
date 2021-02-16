@@ -7,6 +7,7 @@ import math
 import json
 import requests
 import webbrowser
+import time
 
 
 def float_to_string(number, precision=10):
@@ -23,6 +24,7 @@ def log(information):
     logfile.writelines(information)
 
 
+# load settings
 configFiles = ["default-config.json", "config.json"]
 if os.path.exists(configFiles[1]):
     # read json files
@@ -32,7 +34,7 @@ if os.path.exists(configFiles[1]):
         if 'apiKey' in data: apiKey = data['apiKey']
         if 'apiSecret' in data: apiSecret = data['apiSecret']
         if 'coinPair' in data: coinPair = data['coinPair']
-        if 'minutesAveragePrice' in data: minutesAveragePrice = float(data['minutesAveragePrice'])
+        if 'secondsAveragePrice' in data: secondsAveragePrice = float(data['secondsAveragePrice'])
         if 'buyLimit' in data: buyLimit = data['buyLimit']
         if 'percentOfWallet' in data: percentOfWallet = float(data['percentOfWallet']) / 100
         if 'manualBTC' in data: manualBTC = float(data['manualBTC'])
@@ -53,6 +55,35 @@ else:
 # create binance Client
 client = Client(apiKey, apiSecret)
 
+
+'''# calculate time needed for data download
+totStartTime = time.time()
+startTime = time.time()
+print("Download Start")
+trades = client.aggregate_trade_iter(symbol="SKYBTC", start_str="1 minute ago UTC")
+print(trades)
+print("Download End")
+print("Download Time: {}".format(time.time()-startTime))
+
+startTime = time.time()
+print("List Start")
+tradesList = list(trades)
+print("List End")
+print("List Time: {}".format(time.time()-startTime))
+
+startTime = time.time()
+print("Avg Start")
+tot = 0
+for trade in tradesList:
+    fval = float(trade['p'])
+    tot = tot + fval
+avgPrice = tot / len(tradesList)
+print("Avg End")
+print("Avg Time: {}".format(time.time()-startTime))
+print(avgPrice)
+print("It took: {}".format(time.time()-totStartTime))
+'''
+
 # Getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
@@ -70,6 +101,7 @@ if manualBTC <= 0:
     BTCtoSell = BTCBalance * percentOfWallet
 else:
     BTCtoSell = manualBTC
+
 # nice user message
 print(''' 
  ___                                ___           _   
@@ -81,10 +113,9 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("Investing amount for BTC: {}".format(BTCtoSell))
+print("\nInvesting amount for BTC: {}".format(BTCtoSell))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
-
-tradingPair = input("Coin pair: ").upper() + coinPair
+tradingPair = input("\nCoin pair: ").upper() + coinPair
 
 # get trading pair price
 try:
@@ -109,15 +140,15 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if minutesAveragePrice > 0:
-    # find average price in last X mins
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair,
-                                             start_str=str(minutesAveragePrice) + " minutes ago UTC")
+if secondsAveragePrice > 0:
+    # find average price in last X seconds
+    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=float_to_string(secondsAveragePrice,precision=0) + " seconds ago UTC")
     agg_trade_list = list(agg_trades)
+    print(agg_trade_list)
     total = 0
     for trade in agg_trade_list:
         fvalue = float(trade['p'])
-        total = total + fvalue
+        total += fvalue
     averagePrice = total / len(agg_trade_list)
 else:
     averagePrice = price
