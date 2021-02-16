@@ -21,10 +21,10 @@ logfile = open("log.txt", "w+")
 
 # read json file
 try:
-    f = open('key.json', )
+    f = open('keys.json', )
 except FileNotFoundError:
     log("Keys.json not found")
-    sys.exit("Remember to rename your key.json.example to key.json.")
+    sys.exit("Remember to rename your keys.json.example to keys.json.")
     
 data = json.load(f)
 apiKey = data['apiKey']
