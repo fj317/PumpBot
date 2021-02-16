@@ -13,7 +13,6 @@ def float_to_string(number, precision=10):
         number, prec=precision,
     ).rstrip('0').rstrip('.') or '0'
 
-
 def log(information):
     logfile.writelines(information)
 
