@@ -9,49 +9,34 @@ import requests
 import webbrowser
 import time
 
-
 # UTILS
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
         number, prec=precision,
     ).rstrip('0').rstrip('.') or '0'
 
+def log(information):
+    logfile.writelines(information)
 
 # make log file
 logfile = open("log.txt", "w+")
 
+# read json file
+f = open('keys.json',)
+data = json.load(f)
+apiKey = data['apiKey']
+apiSecret = data['apiSecret']
 
-def log(information):
-    logfile.writelines(information)
-
-
-# load settings
-configFiles = ["default-config.json", "config.json"]
-if os.path.exists(configFiles[1]):
-    # read json files
-    for file in configFiles:
-        f = open(file, )
-        data = json.load(f)
-        if 'apiKey' in data: apiKey = data['apiKey']
-        if 'apiSecret' in data: apiSecret = data['apiSecret']
-        if 'coinPair' in data: coinPair = data['coinPair']
-        if 'secondsAveragePrice' in data: secondsAveragePrice = float(data['secondsAveragePrice'])
-        if 'buyLimit' in data: buyLimit = data['buyLimit']
-        if 'percentOfWallet' in data: percentOfWallet = float(data['percentOfWallet']) / 100
-        if 'manualBTC' in data: manualBTC = float(data['manualBTC'])
-        if 'profitMargin' in data: profitMargin = float(data['profitMargin']) / 100
-        if 'stopLoss' in data: stopLoss = float(data['stopLoss'])
-        f.close()
-else:
-    # if no custom config file created, make one
-    d = open(configFiles[0])
-    c = open(configFiles[1], "w+")
-    c.write(d.read())
-    c.close()
-    d.close()
-    log("No custom File. Making one")
-    print("\nNo custom Config file detected. We just created one for you. Change settings as you like.\n")
-    quit()
+f = open('config.json',)
+data = json.load(f)
+# loading config settings
+coinPair = data['coinPair']
+minutesAveragePrice = float(data['minutesAveragePrice'])
+buyLimit = data['buyLimit']
+percentOfWallet = float(data['percentOfWallet']) / 100
+manualBTC = float(data['manualBTC'])
+profitMargin = float(data['profitMargin']) / 100
+stopLoss = float(data['stopLoss'])
 
 # create binance Client
 client = Client(apiKey, apiSecret)
@@ -70,7 +55,7 @@ for ticker in tickers:
     if coinPair in ticker['symbol']:
         averagePrices.append(dict(symbol=ticker['symbol'], wAvgPrice=ticker["weightedAvgPrice"]))
 
-# Getting btc conversion
+# getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
 in_USD = float((data['bpi']['USD']['rate_float']))
@@ -188,7 +173,7 @@ try:
 except BinanceAPIException as e:
     print("A BinanceAPI error has occurred. Code = " + str(e.code))
     print(
-        e.message + "Please use https://binance-docs.github.io/apidocs/spot/en/#error-codes to find greater details "
+        e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find greater details "
                     "on error codes before raising an issue.")
     quit()
 except Exception as d:
@@ -203,7 +188,6 @@ webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 # wait for Enter to close
 input("\nPress Enter to Exit...")
 
-# close Log file
+# close Log file and exit
 logfile.close()
-
 sys.exit()
