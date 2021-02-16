@@ -2,12 +2,10 @@ from binance.client import Client
 from binance.enums import *
 from binance.exceptions import *
 import sys
-import os
 import math
 import json
 import requests
 import webbrowser
-import time
 
 # UTILS
 def float_to_string(number, precision=10):
@@ -23,16 +21,21 @@ logfile = open("log.txt", "w+")
 
 # read json file
 try:
-    f = open('key.json',)
+    f = open('key.json', )
 except FileNotFoundError:
     print("Error. Keys.json not found")
     print("Remember to rename your keys.json.example to keys.json.")
     quit()
+    
 data = json.load(f)
 apiKey = data['apiKey']
 apiSecret = data['apiSecret']
+if (apiKey == "") or (apiSecret == ""):
+    log("API Keys Missing")
+    sys.exit("One or Both of you API Keys are missing.\n"
+    "Please open the keys.json to include them.")
 
-f = open('config.json',)
+f = open('config.json', )
 data = json.load(f)
 # loading config settings
 coinPair = data['coinPair']
@@ -177,7 +180,8 @@ try:
 except BinanceAPIException as e:
     print("A BinanceAPI error has occurred. Code = " + str(e.code))
     print(
-        e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find greater details "
+        e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+                    "greater details "
                     "on error codes before raising an issue.")
     quit()
 except Exception as d:
