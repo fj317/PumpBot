@@ -1,12 +1,12 @@
+from binance.client import Client
+from binance.enums import *
+from binance.exceptions import *
 import json
 import math
 import os
 import requests
 import sys
 import webbrowser
-from binance.client import Client
-from binance.enums import *
-from binance.exceptions import *
 
 
 def float_to_string(number, precision=10):
@@ -62,8 +62,9 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 try:
     BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
 except (BinanceRequestException, BinanceAPIException):
-    print("Invalid API keys.")
-    quit()
+    log("Invalid API keys.")
+    sys.exit("Invalid API keys.")
+
 # decide if use percentage or manual amount
 if manualBTC <= 0:
     BTCtoSell = BTCBalance * percentOfWallet
