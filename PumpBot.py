@@ -134,9 +134,6 @@ orders = client.get_open_orders(symbol=tradingPair)
 while (client.get_open_orders(symbol=tradingPair) != []):
     print("Waiting for coin to buy...")
 
-print(roundedPriceToSell)
-print(float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))))
-
 try:
     # oco order (with stop loss)
     order = client.create_oco_order(
