@@ -31,7 +31,6 @@ f = open('config.json',)
 data = json.load(f)
 # loading config settings
 coinPair = data['coinPair']
-minutesAveragePrice = float(data['minutesAveragePrice'])
 buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
 manualBTC = float(data['manualBTC'])

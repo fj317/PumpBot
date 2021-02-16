@@ -1,6 +1,5 @@
 {
     "coinPair": "BTC",
-    "minutesAveragePrice": 0,
     "buyLimit": 1.15,
     "percentOfWallet": 25,
     "manualBTC": 0.00000000,
