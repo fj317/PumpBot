@@ -1,11 +1,11 @@
 from binance.client import Client
 from binance.enums import *
 from binance.exceptions import *
-import json
-import math
-import os
-import requests
 import sys
+import os
+import math
+import json
+import requests
 import webbrowser
 
 
