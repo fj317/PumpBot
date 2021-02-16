@@ -55,34 +55,21 @@ else:
 # create binance Client
 client = Client(apiKey, apiSecret)
 
+# get all symbols with coinPair as quote
+tickers = client.get_all_tickers()
+symbols = []
+for ticker in tickers:
+    if coinPair in ticker["symbol"]:
+        symbols.append(ticker["symbol"])
 
-'''# calculate time needed for data download
-totStartTime = time.time()
-startTime = time.time()
-print("Download Start")
-trades = client.aggregate_trade_iter(symbol="SKYBTC", start_str="1 minute ago UTC")
-print(trades)
-print("Download End")
-print("Download Time: {}".format(time.time()-startTime))
+# cache average prices
+print("Caching all {} pairs average prices...\nThis can take a while. Please, be patient...\n".format(coinPair))
+tickers = client.get_ticker()
+averagePrices = []
+for ticker in tickers:
+    if coinPair in ticker['symbol']:
+        averagePrices.append(dict(symbol=ticker['symbol'], wAvgPrice=ticker["weightedAvgPrice"]))
 
-startTime = time.time()
-print("List Start")
-tradesList = list(trades)
-print("List End")
-print("List Time: {}".format(time.time()-startTime))
-
-startTime = time.time()
-print("Avg Start")
-tot = 0
-for trade in tradesList:
-    fval = float(trade['p'])
-    tot = tot + fval
-avgPrice = tot / len(tradesList)
-print("Avg End")
-print("Avg Time: {}".format(time.time()-startTime))
-print(avgPrice)
-print("It took: {}".format(time.time()-totStartTime))
-'''
 
 # Getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
@@ -117,14 +104,15 @@ print("\nInvesting amount for BTC: {}".format(BTCtoSell))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + coinPair
 
+
 # get trading pair price
 try:
     price = float(client.get_avg_price(symbol=tradingPair)['price'])
 except BinanceAPIException as e:
     if e.code == -1121:
         print(
-            "Invalid trading pair given. Check your input is correct as well as config.json's 'tradingPair' value to "
-            "correct error.")
+            "Invalid trading pair given. Check your input is correct as well as config.json's 'coinPair' value to "
+            "fix the error.")
     else:
         print("A BinanceAPI error has occurred. Code = " + str(e.code))
         print(
@@ -140,18 +128,11 @@ except Exception as d:
 amountOfCoin = BTCtoSell / price
 
 # ensure buy limit is setup correctly
-if secondsAveragePrice > 0:
-    # find average price in last X seconds
-    agg_trades = client.aggregate_trade_iter(symbol=tradingPair, start_str=float_to_string(secondsAveragePrice,precision=0) + " seconds ago UTC")
-    agg_trade_list = list(agg_trades)
-    print(agg_trade_list)
-    total = 0
-    for trade in agg_trade_list:
-        fvalue = float(trade['p'])
-        total += fvalue
-    averagePrice = total / len(agg_trade_list)
-else:
-    averagePrice = price
+averagePrice = 0
+for ticker in averagePrices:
+    if ticker["symbol"] == tradingPair:
+        averagePrice = ticker["wAvgPrice"]
+if averagePrice == 0: averagePrice = price
 
 # rounding the coin amount to the specified lot size
 info = client.get_symbol_info(tradingPair)
