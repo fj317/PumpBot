@@ -28,20 +28,18 @@
  
  ### Config.JSON
  Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows: 
- 
- Your Binance's API keys can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them: 
- - **apiKey**: enter your own API key here.
- - **apiSecret**: enter your own secret API key here.
-
-
- - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
+  - **coinPair**: allow you to change the coin pairing (in case bitcoin is not the pair used in the pump). Default value is BTC.
  - **buyLimit**: enter the price for the Limit Buy order you will pay in relation to the current price of the coin when it is entered into the program. Eg 1.2 means you are will pay 1.2x the price of the coin to secure it. Default value is 1.15.
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
  - **manualBTC**: enter the exact amount of BTC you want use when placing buy order. If 0 then the percentOfWallet parameter will be used instead. Default value is 0.0.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
  
- If a setting is not found in the config file "config.json" then that parameter's value will be grabbed from the default-config file.
+### Keys.json
+ Keys.json is where you enter your Binance's API keys. These can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them.
+ - **apiKey**: enter your own API key here.
+ - **apiSecret**: enter your own secret API key here.
+ 
  
  ### Work in Progress Features
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
@@ -60,6 +58,9 @@
  - Push to the changes (git push)
  - Create a new Pull Request
  
+Thank you for your contributions...
+- @ezanchi
+
  ### Disclaimer
  Please remember do not invest with money that you cannot afford to lose. I am not responsible if you invest money using the bot and for some reason a bug or error occurs that causes you to lose the money. I'll repeat this - do not invest money you cannot afford to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS. **I'd recommend you to have some coding, Python and crypto-knowledge before using the bot.** The bot is currently still in development so expect bugs and errors.
  

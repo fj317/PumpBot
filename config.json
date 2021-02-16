@@ -1,0 +1,8 @@
+{
+    "coinPair": "BTC",
+    "buyLimit": 1.15,
+    "percentOfWallet": 25,
+    "manualBTC": 0.00000000,
+    "profitMargin": 100,
+    "stopLoss": 0.90
+}
