@@ -10,6 +10,7 @@ import webbrowser
 import time
 
 
+# UTILS
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
         number, prec=precision,
@@ -59,8 +60,7 @@ client = Client(apiKey, apiSecret)
 tickers = client.get_all_tickers()
 symbols = []
 for ticker in tickers:
-    if coinPair in ticker["symbol"]:
-        symbols.append(ticker["symbol"])
+    if coinPair in ticker["symbol"]: symbols.append(ticker["symbol"])
 
 # cache average prices
 print("Caching all {} pairs average prices...\nThis can take a while. Please, be patient...\n".format(coinPair))
@@ -69,7 +69,6 @@ averagePrices = []
 for ticker in tickers:
     if coinPair in ticker['symbol']:
         averagePrices.append(dict(symbol=ticker['symbol'], wAvgPrice=ticker["weightedAvgPrice"]))
-
 
 # Getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
@@ -103,7 +102,6 @@ print('''
 print("\nInvesting amount for BTC: {}".format(BTCtoSell))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + coinPair
-
 
 # get trading pair price
 try:

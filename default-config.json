@@ -2,7 +2,6 @@
     "apiKey": "",
     "apiSecret": "",
 	"coinPair": "BTC",
-    "secondsAveragePrice": 0,
     "buyLimit": 1.15,
     "percentOfWallet": 50,
     "manualBTC": 0.00000000,
