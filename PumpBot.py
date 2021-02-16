@@ -6,6 +6,7 @@ import math
 import json
 import requests
 import webbrowser
+import time;
 
 # UTILS
 def float_to_string(number, precision=10):
@@ -14,7 +15,8 @@ def float_to_string(number, precision=10):
     ).rstrip('0').rstrip('.') or '0'
 
 def log(information):
-    logfile.writelines(information)
+    currentTime = time.strftime("%H:%M:%S", time.localtime())
+    logfile.writelines(str(currentTime) + " --- " + information)
 
 # make log file
 logfile = open("log.txt", "w+")
@@ -24,8 +26,7 @@ try:
     f = open('keys.json', )
 except FileNotFoundError:
     log("Keys.json not found")
-    sys.exit("keys.json file not found\n"
-    "Remember to rename your keys.json.example to keys.json.")
+    sys.exit("Error. Keys.json not found. \nRemember to rename your keys.json.example to keys.json.")
     
 data = json.load(f)
 apiKey = data['apiKey']
