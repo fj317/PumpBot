@@ -111,7 +111,7 @@ except BinanceAPIException as e:
         print(
             "Invalid trading pair given. Check your input is correct as well as config.json's 'coinPair' value to "
             "fix the error.")
-            log("Invalid trading pair given.")
+        log("Invalid trading pair given.")
     else:
         print("A BinanceAPI error has occurred. Code = " + str(e.code))
         print(
