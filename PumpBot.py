@@ -161,8 +161,7 @@ except Exception as d:
     quit()
 
 # waits until the buy order has been confirmed 
-orders = client.get_open_orders(symbol=tradingPair)
-while client.get_open_orders(symbol=tradingPair):
+while order['status'] != "FILLED":
     print("Waiting for coin to buy...")
 # once finished waiting for buy order we can process the sell order
 print('Processing sell order.')
