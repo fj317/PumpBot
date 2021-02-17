@@ -111,15 +111,18 @@ except BinanceAPIException as e:
         print(
             "Invalid trading pair given. Check your input is correct as well as config.json's 'coinPair' value to "
             "fix the error.")
+            log("Invalid trading pair given.")
     else:
         print("A BinanceAPI error has occurred. Code = " + str(e.code))
         print(
             e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                         "greater details on error codes before raising an issue.")
+        log("Binannce API error occured on getting price for trading pair.")
     quit()
 except Exception as d:
     print(d)
     print("An unknown error has occurred.")
+    log("Unlnown error has occured on getting price for trading pair.")
     quit()
 
 # calculate amount of coin to buy
@@ -154,10 +157,12 @@ except BinanceAPIException as e:
     print(
         e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                     "greater details on error codes before raising an issue.")
+    log("Binance API error has occured on buy order")
     quit()
 except Exception as d:
     print(d)
     print("An unknown error has occurred.")
+    log("Unknown error has occured on buy order")
     quit()
 
 # waits until the buy order has been confirmed 
@@ -192,10 +197,12 @@ except BinanceAPIException as e:
         e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                     "greater details "
                     "on error codes before raising an issue.")
+    log("Binance API error has occured on sell order")
     quit()
 except Exception as d:
     print(d)
     print("An unknown error has occurred.")
+    log("Unknown error has occured on sell order")
     quit()
 
 print('Sell order has been made!')
