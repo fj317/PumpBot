@@ -46,6 +46,13 @@ manualBTC = float(data['manualBTC'])
 profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 
+endpoints = {
+    'default': 'https://api.binance.com',
+    'api1': 'https://api1.binance.com',
+    'api2': 'https://api2.binance.com',
+    'api3': 'https://api3.binance.com'
+}
+
 # create binance Client
 client = Client(apiKey, apiSecret)
 
@@ -127,11 +134,11 @@ if averagePrice == 0: averagePrice = price
 
 # rounding the coin amount to the specified lot size
 info = client.get_symbol_info(tradingPair)
-minQty = float(info['filters'][2]['minQty'])
+minQty = float(info['filters'][2]['stepSize'])
 amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
 # rounding price to correct dp
-minPrice = minQty = float(info['filters'][0]['minPrice'])
+minPrice = minQty = float(info['filters'][0]['tickSize'])
 averagePrice = float(averagePrice) * buyLimit
 averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 
@@ -142,9 +149,6 @@ try:
         quantity=amountOfCoin,
         price=averagePrice)
     print('Buy order has been made!')
-    coinOrderInfo = order["fills"][0]
-    coinPriceBought = float(coinOrderInfo['price'])
-    coinOrderQty = float(coinOrderInfo['qty'])
 except BinanceAPIException as e:
     print("A BinanceAPI error has occurred. Code = " + str(e.code))
     print(
@@ -156,16 +160,21 @@ except Exception as d:
     print("An unknown error has occurred.")
     quit()
 
-print('Processing sell order.')
-
-# rounding sell price to correct dp
-priceToSell = coinPriceBought * profitMargin
-roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
-
 # waits until the buy order has been confirmed 
 orders = client.get_open_orders(symbol=tradingPair)
 while client.get_open_orders(symbol=tradingPair):
     print("Waiting for coin to buy...")
+# once finished waiting for buy order we can process the sell order
+print('Processing sell order.')
+
+# once bought we can get info of order
+coinOrderInfo = order["fills"][0]
+coinPriceBought = float(coinOrderInfo['price'])
+coinOrderQty = float(coinOrderInfo['qty'])
+
+# rounding sell price to correct dp
+priceToSell = coinPriceBought * profitMargin
+roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 
 try:
     # oco order (with stop loss)
