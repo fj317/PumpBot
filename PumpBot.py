@@ -6,7 +6,7 @@ import math
 import json
 import requests
 import webbrowser
-import time;
+import time
 
 current_version = 2
 
