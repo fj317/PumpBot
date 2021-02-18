@@ -8,6 +8,8 @@ import requests
 import webbrowser
 import time;
 
+current_version = 2
+
 # UTILS
 def float_to_string(number, precision=10):
     return '{0:.{prec}f}'.format(
