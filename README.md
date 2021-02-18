@@ -38,6 +38,15 @@
  Keys.json is where you enter your Binance's API keys. These can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them. Please note, you will have to rename Keys.json.example to keys.json for the bot to correctly read your API keys.
  - **apiKey**: enter your own API key here.
  - **apiSecret**: enter your own secret API key here.
+
+### Common Errors
+- Timestamp for this request was 1000ms ahead of the server's time
+  - This is an error with your PC rather than the program. See this [thread](https://github.com/yasinkuyu/binance-trader/issues/63#issuecomment-355857901) for help
+- Insufficient balance
+  - Ensure you have enough funds to pay for transaction fees (I'd recommend using BNB for the discount)
+  - If using BNB, make sure to enable using BNB for the fees in your dashboard settings found [here](https://www.binance.com/en/my/dashboard)
+- Invalid API keys
+  - You have entered your API keys incorrectly in keys.json.
  
  
  ### Work in Progress Features
