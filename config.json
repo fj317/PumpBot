@@ -3,7 +3,7 @@
     "buyLimit": 1.15,
     "percentOfWallet": 25,
     "manualQuoted": 0.00000000,
-    "profitMargin": 100,
+    "profitMargin": 150,
     "stopLoss": 0.90,
 
 

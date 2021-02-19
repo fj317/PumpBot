@@ -62,7 +62,7 @@ except FileNotFoundError:
     print("It wasnt possible to check for the latest version..\n")
 data = json.load(f)
 f.close()
-latestVersion = data['current_version']
+latestVersion = data['currentVersion']
 os.remove("version.json")
 if latestVersion > currentVersion:
     log("Current version {}. New version {}".format(currentVersion, latestVersion))
