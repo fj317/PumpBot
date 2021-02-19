@@ -10,7 +10,7 @@ import time
 import urllib
 import os
 import ssl
-
+import time
 
 # UTILS
 def float_to_string(number, precision=10):
@@ -22,10 +22,8 @@ def log(information):
     currentTime = time.strftime("%H:%M:%S", time.localtime())
     logfile.writelines(str(currentTime) + " --- " + information)
 
-
 # make log file
 logfile = open("log.txt", "w+")
-
 
 # read json file
 try:
@@ -103,7 +101,7 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
-    BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
+    BTCBalance = float(client.get_asset_balance(asset=coinPair)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Invalid API keys.")
     sys.exit("Invalid API keys.")
@@ -125,7 +123,7 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("\nInvesting amount for BTC: {}".format(BTCtoSell))
+print("\nInvesting amount for BTC: {}".format(float_to_string(BTCtoSell)))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + coinPair
 
