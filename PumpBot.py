@@ -46,7 +46,7 @@ data = json.load(f)
 coinPair = data['coinPair']
 buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
-manualBTC = float(data['manualBTC'])
+manualQuoted = float(data['manualQuoted'])
 profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
@@ -101,16 +101,16 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
-    BTCBalance = float(client.get_asset_balance(asset=coinPair)['free'])
+    QuoteBalance = float(client.get_asset_balance(asset=coinPair)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Invalid API keys.")
     sys.exit("Invalid API keys.")
 
 # decide if use percentage or manual amount
-if manualBTC <= 0:
-    BTCtoSell = BTCBalance * percentOfWallet
+if manualQuoted <= 0:
+    BTCtoSell = QuoteBalance * percentOfWallet
 else:
-    BTCtoSell = manualBTC
+    BTCtoSell = manualQuoted
 
 # nice user message
 print(''' 
@@ -123,7 +123,7 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("\nInvesting amount for BTC: {}".format(float_to_string(BTCtoSell)))
+print("\nInvesting amount for {}: {}".format(float_to_string(QuoteBalance), float_to_string(BTCtoSell)))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + coinPair
 
