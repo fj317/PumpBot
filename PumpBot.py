@@ -9,6 +9,7 @@ import webbrowser
 import time
 import urllib
 import os
+import ssl
 
 
 # UTILS
@@ -53,6 +54,7 @@ stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
 
 # check we have the latest version
+ssl._create_default_https_context = ssl._create_unverified_context
 url = 'https://raw.githubusercontent.com/fj317/PumpBot/master/config.json'
 urllib.request.urlretrieve(url, 'version.json')
 try:
