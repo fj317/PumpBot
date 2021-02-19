@@ -43,7 +43,7 @@ if (apiKey == "") or (apiSecret == ""):
 f = open('config.json', )
 data = json.load(f)
 # loading config settings
-coinPair = data['coinPair']
+quotedCoin = data['quotedCoin']
 buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
 manualQuoted = float(data['manualQuoted'])
@@ -66,9 +66,8 @@ latestVersion = data['currentVersion']
 os.remove("version.json")
 if latestVersion > currentVersion:
     log("Current version {}. New version {}".format(currentVersion, latestVersion))
-    print("New version of the script found. Please download the new version...\n")
+    print("\nNew version of the script found. Please download the new version...\n")
     time.sleep(3)
-
 
 endpoints = {
     'default': 'https://api.binance.com',
@@ -84,14 +83,14 @@ client = Client(apiKey, apiSecret)
 tickers = client.get_all_tickers()
 symbols = []
 for ticker in tickers:
-    if coinPair in ticker["symbol"]: symbols.append(ticker["symbol"])
+    if quotedCoin in ticker["symbol"]: symbols.append(ticker["symbol"])
 
 # cache average prices
-print("Caching all {} pairs average prices...\nThis can take a while. Please, be patient...\n".format(coinPair))
+print("Caching all {} pairs average prices...\nThis can take a while. Please, be patient...\n".format(quotedCoin))
 tickers = client.get_ticker()
 averagePrices = []
 for ticker in tickers:
-    if coinPair in ticker['symbol']:
+    if quotedCoin in ticker['symbol']:
         averagePrices.append(dict(symbol=ticker['symbol'], wAvgPrice=ticker["weightedAvgPrice"]))
 
 # getting btc conversion
@@ -101,7 +100,7 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
-    QuoteBalance = float(client.get_asset_balance(asset=coinPair)['free'])
+    QuoteBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Invalid API keys.")
     sys.exit("Invalid API keys.")
@@ -123,9 +122,9 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("\nInvesting amount for {}: {}".format(float_to_string(QuoteBalance), float_to_string(BTCtoSell)))
+print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(BTCtoSell)))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
-tradingPair = input("\nCoin pair: ").upper() + coinPair
+tradingPair = input("\nCoin pair: ").upper() + quotedCoin
 
 # get trading pair price
 try:

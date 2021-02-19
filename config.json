@@ -1,5 +1,5 @@
 {
-    "coinPair": "BTC",
+    "quotedCoin": "BTC",
     "buyLimit": 1.15,
     "percentOfWallet": 25,
     "manualQuoted": 0.00000000,
