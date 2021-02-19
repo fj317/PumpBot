@@ -77,7 +77,7 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
-    BTCBalance = float(client.get_asset_balance(asset='BTC')['free'])
+    BTCBalance = float(client.get_asset_balance(asset=coinPair)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Invalid API keys.")
     sys.exit("Invalid API keys.")
@@ -99,7 +99,7 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("\nInvesting amount for BTC: {}".format(BTCtoSell))
+print("\nInvesting amount for BTC: {}".format(float_to_string(BTCtoSell)))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + coinPair
 
