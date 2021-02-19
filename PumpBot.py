@@ -6,7 +6,11 @@ import math
 import json
 import requests
 import webbrowser
-import time;
+import time
+import urllib
+import os
+import ssl
+import time
 
 # UTILS
 def float_to_string(number, precision=10):
@@ -42,9 +46,29 @@ data = json.load(f)
 coinPair = data['coinPair']
 buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
-manualBTC = float(data['manualBTC'])
+manualQuoted = float(data['manualQuoted'])
 profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
+currentVersion = float(data['currentVersion'])
+
+# check we have the latest version
+ssl._create_default_https_context = ssl._create_unverified_context
+url = 'https://raw.githubusercontent.com/fj317/PumpBot/master/config.json'
+urllib.request.urlretrieve(url, 'version.json')
+try:
+    f = open('version.json', )
+except FileNotFoundError:
+    log("version.json not found")
+    print("It wasnt possible to check for the latest version..\n")
+data = json.load(f)
+f.close()
+latestVersion = data['currentVersion']
+os.remove("version.json")
+if latestVersion > currentVersion:
+    log("Current version {}. New version {}".format(currentVersion, latestVersion))
+    print("New version of the script found. Please download the new version...\n")
+    time.sleep(3)
+
 
 endpoints = {
     'default': 'https://api.binance.com',
@@ -77,16 +101,16 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
-    BTCBalance = float(client.get_asset_balance(asset=coinPair)['free'])
+    QuoteBalance = float(client.get_asset_balance(asset=coinPair)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Invalid API keys.")
     sys.exit("Invalid API keys.")
 
 # decide if use percentage or manual amount
-if manualBTC <= 0:
-    BTCtoSell = BTCBalance * percentOfWallet
+if manualQuoted <= 0:
+    BTCtoSell = QuoteBalance * percentOfWallet
 else:
-    BTCtoSell = manualBTC
+    BTCtoSell = manualQuoted
 
 # nice user message
 print(''' 
@@ -99,7 +123,7 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("\nInvesting amount for BTC: {}".format(float_to_string(BTCtoSell)))
+print("\nInvesting amount for {}: {}".format(float_to_string(QuoteBalance), float_to_string(BTCtoSell)))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + coinPair
 
