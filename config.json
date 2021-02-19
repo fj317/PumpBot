@@ -4,5 +4,12 @@
     "percentOfWallet": 25,
     "manualBTC": 0.00000000,
     "profitMargin": 100,
-    "stopLoss": 0.90
+    "stopLoss": 0.90,
+
+
+
+
+
+    "comment": "DO NOT EDIT ANYTHING BELOW THIS LINE",
+    "currentVersion": 1
 }

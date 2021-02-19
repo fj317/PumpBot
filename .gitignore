@@ -2,4 +2,5 @@
 .github/ISSUE_TEMPLATE 
 keys.json
 log.txt 
-.idea/
+.vscode/
+__pycache__
