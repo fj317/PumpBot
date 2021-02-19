@@ -6,10 +6,7 @@ import math
 import json
 import requests
 import webbrowser
-import time
-import urllib
-import os
-
+import time;
 
 # UTILS
 def float_to_string(number, precision=10):
@@ -21,10 +18,8 @@ def log(information):
     currentTime = time.strftime("%H:%M:%S", time.localtime())
     logfile.writelines(str(currentTime) + " --- " + information)
 
-
 # make log file
 logfile = open("log.txt", "w+")
-
 
 # read json file
 try:
@@ -50,25 +45,6 @@ percentOfWallet = float(data['percentOfWallet']) / 100
 manualBTC = float(data['manualBTC'])
 profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
-currentVersion = float(data['currentVersion'])
-
-# check we have the latest version
-url = 'https://raw.githubusercontent.com/fj317/PumpBot/master/config.json'
-urllib.request.urlretrieve(url, 'version.json')
-try:
-    f = open('version.json', )
-except FileNotFoundError:
-    log("version.json not found")
-    print("It wasnt possible to check for the latest version..\n")
-data = json.load(f)
-f.close()
-latest_version = data['current_version']
-os.remove("version.json")
-if latest_version > currentVersion:
-    log("Current version {}. New version {}".format(currentVersion, latest_version))
-    print("New version of the script found. Please download the new version...\n")
-    time.sleep(3)
-
 
 endpoints = {
     'default': 'https://api.binance.com',
