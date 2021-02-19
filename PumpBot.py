@@ -100,16 +100,16 @@ in_USD = float((data['bpi']['USD']['rate_float']))
 
 # find amount of bitcoin to use
 try:
-    QuoteBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
+    QuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Invalid API keys.")
     sys.exit("Invalid API keys.")
 
 # decide if use percentage or manual amount
 if manualQuoted <= 0:
-    BTCtoSell = QuoteBalance * percentOfWallet
+    AmountToSell = QuotedBalance * percentOfWallet
 else:
-    BTCtoSell = manualQuoted
+    AmountToSell = manualQuoted
 
 # nice user message
 print(''' 
@@ -122,8 +122,8 @@ print('''
                          | |                          
                          (_)                          ''')
 # wait until coin input
-print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(BTCtoSell)))
-print("Investing amount in USD: {}".format(float_to_string((in_USD * BTCtoSell), 2)))
+print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(AmountToSell)))
+print("Investing amount in USD: {}".format(float_to_string((in_USD * AmountToSell), 2)))
 tradingPair = input("\nCoin pair: ").upper() + quotedCoin
 
 # get trading pair price
@@ -149,7 +149,7 @@ except Exception as d:
     quit()
 
 # calculate amount of coin to buy
-amountOfCoin = BTCtoSell / price
+amountOfCoin = AmountToSell / price
 
 # ensure buy limit is setup correctly
 averagePrice = 0
