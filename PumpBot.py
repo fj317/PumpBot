@@ -50,7 +50,7 @@ percentOfWallet = float(data['percentOfWallet']) / 100
 manualBTC = float(data['manualBTC'])
 profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
-currentVersion = data['currentVersion']
+currentVersion = float(data['currentVersion'])
 
 # check we have the latest version
 url = 'https://raw.githubusercontent.com/fj317/PumpBot/master/config.json'
