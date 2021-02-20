@@ -55,12 +55,11 @@
  - [ ] GUI which graphs the price of the selected coin pair in real time. 
  - [ ] Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
  - [ ] Bot will check how much BNB your wallet contains, and if below a threshold amount with convert some BTC to BNB to pay for Binance's fees.
- - [x] Add safety net (stop loss) so that if coin price falls quickly you will not lose additional money.
- - [x] Bot opens Binance trading page for the trading pair at end of execution. Suggested by @ezanchi.
- - [ ] Add ability to override config.json data by entering arguments on the command line when starting program. Suggested by @ezanchi.
- - [x] User can enter BTC amount's directly in config.json rather than using percentOfWallet parameter. Implemented by @ezanchi.
- - [ ] Pre-pump detection. Suggested by @ernestonee.
- - [ ] Improve profit strategies. Suggested by @ezanchi. 
+ - [ ] Add ability to override config.json data by entering arguments on the command line when starting program.
+ - [ ] Pre-pump detection.
+ - [ ] Improve profit strategies.
+ - [ ] Real time price checker.
+ - [ ] Show percentage profit once sell order has been fulfilled.
  
  ### Contributing
  - Fork this Repo
