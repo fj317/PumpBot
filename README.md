@@ -1,8 +1,6 @@
-# PumpBot
+![PumpBot Logo](https://github.com/fj317/PumpBot/blob/master/resources/logo.jpg)
  A bot to use in a pump & dump event on Binance.com.
- 
-![Menu Screen](https://github.com/fj317/PumpBot/blob/master/resources/menuScreen.png)  
- 
+  
  ### Features
  - Speedy. 
    - Can create buy and sell orders within a second of entering the coin pair.
@@ -24,6 +22,8 @@
  5. Enter coin into the bot once it has been given
  6. Let bot setup buy order and sell order 
  7. Profit?
+
+![Menu Screen](https://github.com/fj317/PumpBot/blob/master/resources/menuScreen.png)  
  
  ### Config.JSON
  Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows: 
