@@ -1,7 +1,7 @@
 {
     "coinPair": "BTC",
     "buyLimit": 1.15,
-    "percentOfWallet": 25,
+    "percentOfWallet": 50,
     "manualQuoted": 0.00000000,
     "profitMargin": 150,
     "stopLoss": 0.90,
@@ -11,5 +11,5 @@
 
 
     "comment": "DO NOT EDIT ANYTHING BELOW THIS LINE",
-    "currentVersion" : 1
+    "currentVersion" : 1.1
 }
