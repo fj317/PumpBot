@@ -139,7 +139,7 @@ except BinanceAPIException as e:
     else:
         print("A BinanceAPI error has occurred. Code = " + str(e.code))
         print(
-            e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+            e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                         "greater details on error codes before raising an issue.")
         log("Binannce API error occured on getting price for trading pair.")
     quit()
@@ -179,7 +179,7 @@ try:
 except BinanceAPIException as e:
     print("A BinanceAPI error has occurred. Code = " + str(e.code))
     print(
-        e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+        e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                     "greater details on error codes before raising an issue.")
     log("Binance API error has occured on buy order")
     quit()
@@ -218,7 +218,7 @@ try:
 except BinanceAPIException as e:
     print("A BinanceAPI error has occurred. Code = " + str(e.code))
     print(
-        e.message + "Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+        e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                     "greater details "
                     "on error codes before raising an issue.")
     log("Binance API error has occured on sell order")
