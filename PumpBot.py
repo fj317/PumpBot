@@ -234,7 +234,7 @@ print('Sell order has been made!')
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
 print("Waiting for sell order to be made.")
-while order['status'] == "FILLED":
+while order['listOrderStatus'] == "ALL_DONE":
     print("Sell order sold! ")
 
 # wait for Enter to close
