@@ -80,9 +80,8 @@ endpoints = {
 try:
     Client.API_URL = endpoints[endpoint]
 except Exception as d:
-    print("Endpoint error.")
-    log("Endpoint error.")
-    quit()
+    print("Endpoint error. Using default endpoint instead")
+    log("Endpoint error. Using default endpoint instead")
 
 # create binance Client
 client = Client(apiKey, apiSecret)
