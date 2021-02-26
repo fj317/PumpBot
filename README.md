@@ -35,6 +35,11 @@
  - **manualQuoted**: enter the exact amount of BTC you want use when placing buy order. If 0 then the percentOfWallet parameter will be used instead. Default value is 0.0.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
  - **stopLoss**: sets a stop loss sell order at percentage of what you paid for the coin. Default value is 0.9 (i.e. coin will automatically sell at market price if value reaches 90% of what you orignally bought at).
+ - **endpoint**: change what endpoint you will use to connect to Binance.com. Default value is 'default'. The possible values are:
+   - default
+   - api1
+   - api2
+   - api3
  
 ### Keys.json
  Keys.json is where you enter your Binance's API keys. These can be found on your [Binance profile](https://www.binance.com/en/support/articles/360002502072). These values are required for the bot to work so please do not forget to enter them. Please note, you will have to rename Keys.json.example to keys.json for the bot to correctly read your API keys.

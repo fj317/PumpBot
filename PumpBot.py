@@ -50,6 +50,7 @@ manualQuoted = float(data['manualQuoted'])
 profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
+endpoint = data['endpoint']
 
 # check we have the latest version
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -70,11 +71,18 @@ if latestVersion > currentVersion:
     time.sleep(3)
 
 endpoints = {
-    'default': 'https://api.binance.com',
-    'api1': 'https://api1.binance.com',
-    'api2': 'https://api2.binance.com',
-    'api3': 'https://api3.binance.com'
+    'default': 'https://api.binance.{}/api',
+    'api1': 'https://api1.binance.{}/api',
+    'api2': 'https://api2.binance.{}/api',
+    'api3': 'https://api3.binance.{}/api'
 }
+
+try:
+    Client.API_URL = endpoints[endpoint]
+except Exception as d:
+    print("Endpoint error.")
+    log("Endpoint error.")
+    quit()
 
 # create binance Client
 client = Client(apiKey, apiSecret)

@@ -1,15 +1,16 @@
 {
     "quotedCoin": "BTC",
-    "buyLimit": 1.15,
-    "percentOfWallet": 50,
+    "buyLimit": 1.10,
+    "percentOfWallet": 25,
     "manualQuoted": 0.00000000,
-    "profitMargin": 150,
+    "profitMargin": 130,
     "stopLoss": 0.90,
+    "endpoint": "default",
 
 
 
 
 
     "comment": "DO NOT EDIT ANYTHING BELOW THIS LINE",
-    "currentVersion" : 1.1
+    "currentVersion" : 1.2
 }
