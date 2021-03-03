@@ -20,7 +20,7 @@ def float_to_string(number, precision=10):
 
 def log(information):
     currentTime = time.strftime("%H:%M:%S", time.localtime())
-    logfile.writelines(str(currentTime) + " --- " + information)
+    logfile.writelines(str(currentTime) + " --- " + str(information))
 
 # make log file
 logfile = open("log.txt", "w+")
@@ -206,9 +206,13 @@ coinOrderInfo = order["fills"][0]
 coinPriceBought = float(coinOrderInfo['price'])
 coinOrderQty = float(coinOrderInfo['qty'])
 
-# rounding sell price to correct dp
+# find price to sell coins at
 priceToSell = coinPriceBought * profitMargin
+# rounding sell price to correct dp
 roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
+
+# get stop price
+stopPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice)))
 
 try:
     # oco order (with stop loss)
@@ -217,21 +221,23 @@ try:
         quantity=coinOrderQty,
         side=SIDE_SELL,
         price=roundedPriceToSell,
-        stopPrice=float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
-        stopLimitPrice=float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice))),
+        stopPrice=stopPrice,
+        stopLimitPrice=stopPrice,
         stopLimitTimeInForce=TIME_IN_FORCE_GTC
     )
 except BinanceAPIException as e:
     print("A BinanceAPI error has occurred. Code = " + str(e.code))
     print(
-        e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+        e.message + " Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                     "greater details "
                     "on error codes before raising an issue.")
+    log(e)
     log("Binance API error has occured on sell order")
     quit()
 except Exception as d:
     print(d)
     print("An unknown error has occurred.")
+    log(d)
     log("Unknown error has occured on sell order")
     quit()
 
