@@ -20,7 +20,7 @@ def float_to_string(number, precision=10):
 
 def log(information):
     currentTime = time.strftime("%H:%M:%S", time.localtime())
-    logfile.writelines(str(currentTime) + " --- " + str(information))
+    logfile.writelines(str(currentTime) + " --- " + str(information) + "\n")
 
 def marketSell(amountSell):
     order = client.order_market_sell(
@@ -220,7 +220,6 @@ roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 
 # get stop price
 stopPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice)))
-
 try:
     # oco order (with stop loss)
     order = client.create_oco_order(
@@ -244,7 +243,6 @@ except BinanceAPIException as e:
     marketSell(coinOrderQty)
     quit()
 except Exception as d:
-    print(d)
     print("An unknown error has occurred.")
     log(d)
     log("Unknown error has occured on sell order")
@@ -257,8 +255,13 @@ print('Sell order has been made!')
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
 print("Waiting for sell order to be completed.")
-while order['listOrderStatus'] == "ALL_DONE":
-    print("Sell order sold! ")
+while order['listOrderStatus'] != "ALL_DONE":
+    pass
+print("Sell order sold!")
+
+newQuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
+profit = newQuotedBalance - QuotedBalance
+print("Profit made: " + str(profit))
 
 # wait for Enter to close
 input("\nPress Enter to Exit...")
