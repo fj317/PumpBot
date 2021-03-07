@@ -64,8 +64,8 @@
  - [ ] Pre-pump detection.
  - [ ] Improve profit strategies.
  - [ ] Real time price checker.
- - [ ] Show percentage profit once sell order has been fulfilled.
  - [ ] Kucoin API support.
+ - [ ] Sell 25% of coins bought at a time
  
  ### Contributing
  - Fork this Repo
