@@ -22,6 +22,13 @@ def log(information):
     currentTime = time.strftime("%H:%M:%S", time.localtime())
     logfile.writelines(str(currentTime) + " --- " + str(information))
 
+def marketSell(amountSell):
+    order = client.order_market_sell(
+        symbol=tradingPair,
+        quantity=amountSell)
+    log("Sold at market price")
+    print("Sold at market price")
+
 # make log file
 logfile = open("log.txt", "w+")
 
@@ -233,19 +240,23 @@ except BinanceAPIException as e:
                     "on error codes before raising an issue.")
     log(e)
     log("Binance API error has occured on sell order")
+    print("Attempting to market sell.")
+    marketSell(coinOrderQty)
     quit()
 except Exception as d:
     print(d)
     print("An unknown error has occurred.")
     log(d)
     log("Unknown error has occured on sell order")
+    print("Attempting to market sell.")
+    marketSell(coinOrderQty)
     quit()
 
 print('Sell order has been made!')
 # open binance page to trading pair
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
-print("Waiting for sell order to be made.")
+print("Waiting for sell order to be completed.")
 while order['listOrderStatus'] == "ALL_DONE":
     print("Sell order sold! ")
 
