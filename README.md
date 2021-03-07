@@ -65,6 +65,7 @@
  - [ ] Improve profit strategies.
  - [ ] Real time price checker.
  - [ ] Show percentage profit once sell order has been fulfilled.
+ - [ ] Kucoin API support.
  
  ### Contributing
  - Fork this Repo
