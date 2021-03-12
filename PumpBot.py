@@ -50,7 +50,7 @@ if (apiKey == "") or (apiSecret == ""):
 f = open('config.json', )
 data = json.load(f)
 # loading config settings
-quotedCoin = data['quotedCoin']
+quotedCoin = data['quotedCoin'].upper()
 buyLimit = data['buyLimit']
 percentOfWallet = float(data['percentOfWallet']) / 100
 manualQuoted = float(data['manualQuoted'])
@@ -67,7 +67,8 @@ try:
     f = open('version.json', )
 except FileNotFoundError:
     log("version.json not found")
-    print("It wasnt possible to check for the latest version..\n")
+    print("Fatal error checking versions. Please try again\n")
+    quit()
 data = json.load(f)
 f.close()
 latestVersion = data['currentVersion']
@@ -111,13 +112,14 @@ for ticker in tickers:
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
 in_USD = float((data['bpi']['USD']['rate_float']))
+print("Sucessfully cached BTC pairs!")
 
 # find amount of bitcoin to use
 try:
     QuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
 except (BinanceRequestException, BinanceAPIException):
-    log("Invalid API keys.")
-    sys.exit("Invalid API keys.")
+    log("Error with getting balance")
+    sys.exit("Error with getting balance.")
 
 # decide if use percentage or manual amount
 if manualQuoted <= 0:
