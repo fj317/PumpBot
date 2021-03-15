@@ -155,11 +155,12 @@ averagePrice = 0
 for ticker in averagePrices:
     if ticker["symbol"] == tradingPair:
         averagePrice = ticker["wAvgPrice"]
-if averagePrice == 0: averagePrice = price
+# if average price fails then get the current price of the trading pair (backup in case average price fails)
+if averagePrice == 0: averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
 
 log("Calculating amount of coin to buy.")
 # calculate amount of coin to buy
-amountOfCoin = AmountToSell / averagePrices
+amountOfCoin = AmountToSell / averagePrice
 
 log("Rounding amount of coin.")
 # rounding the coin amount to the specified lot size
