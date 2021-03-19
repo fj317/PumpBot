@@ -160,7 +160,7 @@ if averagePrice == 0: averagePrice = float(client.get_avg_price(symbol=tradingPa
 
 log("Calculating amount of coin to buy.")
 # calculate amount of coin to buy
-amountOfCoin = AmountToSell / averagePrice
+amountOfCoin = AmountToSell / float(averagePrice)
 
 log("Rounding amount of coin.")
 # rounding the coin amount to the specified lot size
