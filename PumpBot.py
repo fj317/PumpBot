@@ -23,11 +23,25 @@ def log(information):
     logfile.writelines(str(currentTime) + " --- " + str(information) + "\n")
 
 def marketSell(amountSell):
+    print("Market selling due to error")
     order = client.order_market_sell(
         symbol=tradingPair,
         quantity=amountSell)
     log("Sold at market price.")
     print("Sold at market price")
+
+def topupBNB(min_balance, topup):
+    # Top up BNB balance if it drops below minimum specified balance
+    bnb_balance = client.get_asset_balance(asset='BNB')
+    bnb_balance = float(bnb_balance['free'])
+    balancePair = 'BNB' + str(quotedCoin)
+    if bnb_balance < min_balance:
+        qty = round(topup - bnb_balance, 2)
+        print("Topping up BNB wallet to avoid transaction fees")
+        log("Getting more BNB to top-up wallet")
+        order = client.order_market_buy(symbol=balancePair, quantity=qty)
+        return order
+    return False
 
 # make log file
 logfile = open("log.txt", "w+")
@@ -117,7 +131,7 @@ for ticker in tickers:
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
 in_USD = float((data['bpi']['USD']['rate_float']))
-print("Sucessfully cached" + quotedCoin + "pairs!")
+print("Sucessfully cached " + quotedCoin + " pairs!")
 log("Sucessfully cached quoted coin pairs.")
 
 # find amount of bitcoin to use
@@ -133,6 +147,11 @@ if manualQuoted <= 0:
     AmountToSell = QuotedBalance * percentOfWallet
 else:
     AmountToSell = manualQuoted
+
+# ensure wallet has BNB transaction fees
+log("Checking BNB balance if topup required.")
+print("Checking BNB balance if topup required.")
+topupBNB(0.01, 0.02)
 
 # nice user message
 print(''' 
@@ -168,33 +187,53 @@ info = client.get_symbol_info(tradingPair)
 minQty = float(info['filters'][2]['stepSize'])
 amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
 
-# rounding price to correct dp
-log("Rounding price for coin.")
-minPrice = minQty = float(info['filters'][0]['tickSize'])
-averagePrice = float(averagePrice) * buyLimit
-averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
+if buyLimit != 1:
+    # rounding price to correct dp
+    log("Rounding price for coin.")
+    minPrice = minQty = float(info['filters'][0]['tickSize'])
+    averagePrice = float(averagePrice) * buyLimit
+    averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 
-log("Attempt to create buy order.")
-try:
-    # buy order
-    order = client.order_limit_buy(
-        symbol=tradingPair,
-        quantity=amountOfCoin,
-        price=averagePrice)
-except BinanceAPIException as e:
-    print("A BinanceAPI error has occurred. Code = " + str(e.code))
-    print(
-        e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
-                    "greater details on error codes before raising an issue.")
-    log("Binance API error has occured on buy order.")
-    quit()
-except Exception as d:
-    print(d)
-    print("An unknown error has occurred.")
-    log("Unknown error has occured on buy order.")
-    quit()
-
-# waits until the buy order has been confirmed 
+    log("Attempt to create limit buy order.")
+    try:
+        # buy order
+        order = client.order_limit_buy(
+            symbol=tradingPair,
+            quantity=amountOfCoin,
+            price=averagePrice)
+    except BinanceAPIException as e:
+        print("A BinanceAPI error has occurred. Code = " + str(e.code))
+        print(
+            e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+                        "greater details on error codes before raising an issue.")
+        log("Binance API error has occured on buy order.")
+        quit()
+    except Exception as d:
+        print(d)
+        print("An unknown error has occurred.")
+        log("Unknown error has occured on buy order.")
+        quit()
+else:
+    log("Attempt to create market buy order")
+    # do market order shit here
+    try:
+        order = client.order_market_buy(
+            symbol=tradingPair,
+            quantity=amountOfCoin)
+    except BinanceAPIException as e:
+        print("A BinanceAPI error has occurred. Code = " + str(e.code))
+        print(
+            e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
+                        "greater details on error codes before raising an issue.")
+        log("Binance API error has occured on buy order.")
+        quit()
+    except Exception as d:
+        print(d)
+        print("An unknown error has occurred.")
+        log("Unknown error has occured on buy order.")
+        quit()
+    
+# waits until the buy order has been confirmed
 while order['status'] != "FILLED":
     print("Waiting for coin to buy...")
 
@@ -239,14 +278,12 @@ except BinanceAPIException as e:
                     "on error codes before raising an issue.")
     log(e)
     log("Binance API error has occured on sell order.")
-    print("Attempting to market sell.")
     marketSell(coinOrderQty)
     quit()
 except Exception as d:
     print("An unknown error has occurred.")
     log(d)
     log("Unknown error has occured on sell order.")
-    print("Attempting to market sell.")
     marketSell(coinOrderQty)
     quit()
 
