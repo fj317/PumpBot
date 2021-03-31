@@ -31,6 +31,7 @@
  Config.json allows the user to customise the bot to their liking. The parameters the user can change are as follows: 
   - **quotedCoin**: allow you to change the quoted coin (in case Bitcoin is not the pair used in the pump). Default value is BTC.
  - **buyLimit**: enter the price for the Limit Buy order you will pay in relation to the current price of the coin when it is entered into the program. Eg 1.2 means you are will pay 1.2x the price of the coin to secure it. Default value is 1.15.
+   - If this value is set to 1, the bot will create a market order rather than limit order. Please ensure you are aware of the differences if you use a market order. 
  - **percentOfWallet**: determines what percentage of your wallet's BTC will be used. Default value is 50%.
  - **manualQuoted**: enter the exact amount of BTC you want use when placing buy order. If 0 then the percentOfWallet parameter will be used instead. Default value is 0.0.
  - **profitMargin**: determines what price the coin's sell order will be put at. Default value is 150 (a 50% increase)
