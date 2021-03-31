@@ -57,14 +57,10 @@
  
  
  ### Work in Progress Features
- - [ ] GUI which graphs the price of the selected coin pair in real time. 
- - [ ] Give user the ability to manually cash out the coin (would automatically setup sell order at current price).
- - [ ] Bot will check how much BNB your wallet contains, and if below a threshold amount with convert some BTC to BNB to pay for Binance's fees.
  - [ ] Add ability to override config.json data by entering arguments on the command line when starting program.
- - [ ] Pre-pump detection.
+ - [ ] Pre-pump detection. This is a monumental feature so is not currently actively being worked on.
  - [ ] Improve profit strategies.
  - [ ] Real time price checker.
- - [ ] Kucoin API support.
  - [ ] Sell 25% of coins bought at a time
  
  ### Contributing
