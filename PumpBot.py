@@ -1,6 +1,8 @@
 from binance.client import Client
 from binance.enums import *
 from binance.exceptions import *
+from binance.websockets import BinanceSocketManager
+from twisted.internet import reactor
 import sys
 import math
 import json
@@ -43,6 +45,26 @@ def topupBNB(min_balance, topup):
         return order
     return False
 
+# set orderCompleted to false
+orderCompleted = False
+
+# websocket stuff
+def process_message(msg):
+    if msg['e'] == 'executionReport':
+        if msg['X'] == 'FILLED':
+            global orderCompleted
+            orderCompleted = True
+
+def quitProgram():
+    print("Quitting, this could take a few seconds!")
+    log("Quitting program")
+    # close log file
+    logfile.close()
+    # stop socket
+    reactor.stop()
+    # quit program
+    sys.exit()
+
 # make log file
 logfile = open("log.txt", "w+")
 
@@ -51,7 +73,8 @@ try:
     f = open('keys.json', )
 except FileNotFoundError:
     log("Keys.json not found.")
-    sys.exit("Error. Keys.json not found. \nRemember to rename your keys.json.example to keys.json.")
+    print("Error. Keys.json not found. \nRemember to rename your keys.json.example to keys.json.")
+    quitProgram()
     
 log("Loading API keys.")
 data = json.load(f)
@@ -59,8 +82,9 @@ apiKey = data['apiKey']
 apiSecret = data['apiSecret']
 if (apiKey == "") or (apiSecret == ""):
     log("API Keys Missing.")
-    sys.exit("One or Both of you API Keys are missing.\n"
+    print("One or Both of you API Keys are missing.\n"
     "Please open the keys.json to include them.")
+    quitProgram()
 
 log("API keys successfully loaded.")
 log("Loading config.json settings.")
@@ -86,7 +110,7 @@ try:
 except FileNotFoundError:
     log("version.json not found. Quitting program.")
     print("Fatal error checking versions. Please try again\n")
-    quit()
+    quitProgram()
 data = json.load(f)
 f.close()
 latestVersion = data['currentVersion']
@@ -111,6 +135,11 @@ except Exception as d:
 
 # create binance Client
 client = Client(apiKey, apiSecret)
+
+# do websocket stuff
+bm = BinanceSocketManager(client)
+bm.start_user_socket(process_message)
+bm.start()
 
 # get all symbols with coinPair as quote
 tickers = client.get_all_tickers()
@@ -140,7 +169,8 @@ try:
     QuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
 except (BinanceRequestException, BinanceAPIException):
     log("Error with getting balance.")
-    sys.exit("Error with getting balance.")
+    print("Error with getting balance.")
+    quitProgram()
 
 # decide if use percentage or manual amount
 if manualQuoted <= 0:
@@ -186,11 +216,12 @@ log("Rounding amount of coin.")
 info = client.get_symbol_info(tradingPair)
 minQty = float(info['filters'][2]['stepSize'])
 amountOfCoin = float_to_string(amountOfCoin, int(- math.log10(minQty)))
+minPrice = float(info['filters'][0]['tickSize'])
+
 
 if buyLimit != 1:
     # rounding price to correct dp
     log("Rounding price for coin.")
-    minPrice = minQty = float(info['filters'][0]['tickSize'])
     averagePrice = float(averagePrice) * buyLimit
     averagePrice = float_to_string(averagePrice, int(- math.log10(minPrice)))
 
@@ -207,12 +238,12 @@ if buyLimit != 1:
             e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                         "greater details on error codes before raising an issue.")
         log("Binance API error has occured on buy order.")
-        quit()
+        quitProgram()
     except Exception as d:
         print(d)
         print("An unknown error has occurred.")
         log("Unknown error has occured on buy order.")
-        quit()
+        quitProgram()
 else:
     log("Attempt to create market buy order")
     # do market order shit here
@@ -226,16 +257,19 @@ else:
             e.message + ". Please use https://github.com/binance/binance-spot-api-docs/blob/master/errors.md to find "
                         "greater details on error codes before raising an issue.")
         log("Binance API error has occured on buy order.")
-        quit()
+        quitProgram()
     except Exception as d:
         print(d)
         print("An unknown error has occurred.")
         log("Unknown error has occured on buy order.")
-        quit()
+        quitProgram()
     
 # waits until the buy order has been confirmed
-while order['status'] != "FILLED":
-    print("Waiting for coin to buy...")
+print("Waiting for coin to buy...")
+while not(orderCompleted):
+    pass
+# when order compelted reset to false for next order
+orderCompleted = False
 
 print('Buy order has been made!')
 log("Buy order successfully made.")
@@ -279,21 +313,21 @@ except BinanceAPIException as e:
     log(e)
     log("Binance API error has occured on sell order.")
     marketSell(coinOrderQty)
-    quit()
+    quitProgram()
 except Exception as d:
     print("An unknown error has occurred.")
     log(d)
     log("Unknown error has occured on sell order.")
     marketSell(coinOrderQty)
-    quit()
+    quitProgram()
 
 print('Sell order has been made!')
 log("Sell order successfully made.")
 # open binance page to trading pair
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
-print("Waiting for sell order to be completed.")
-while order['listOrderStatus'] != "ALL_DONE":
+print("Waiting for sell order to be completed...")
+while not(orderCompleted):
     pass
 print("Sell order has been filled!")
 log("Sell order has been filled.")
@@ -306,6 +340,5 @@ log("Profit made: " + str(profit))
 # wait for Enter to close
 input("\nPress Enter to Exit...")
 
-# close Log file and exit
-logfile.close()
-sys.exit()
+# quit
+quitProgram()
