@@ -167,8 +167,9 @@ log("Sucessfully cached quoted coin pairs.")
 log("Getting quoted balance amount.")
 try:
     QuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
-except (BinanceRequestException, BinanceAPIException):
+except Exception as e:
     log("Error with getting balance.")
+    log(e)
     print("Error with getting balance.")
     quitProgram()
 
