@@ -282,15 +282,15 @@ log("Processing sell order.")
 # once bought we can get info of order
 log("Getting buy order information.")
 
-coinOrderInfo = order["fills"][0]
-# sometimes the order data takes a bit of time to update on their servers,
-# retrying until there is a first item.
-while not 0 < len(coinOrderInfo['items']):
-    print('not updated in server yet, retrying...')
-    coinOrderInfo = order["fills"][0]
-
-coinPriceBought = float(coinOrderInfo['price'])
-coinOrderQty = float(coinOrderInfo['qty'])
+# fix problem with getting data from binance servers
+while True:
+    try:
+        coinOrderInfo = order["fills"][0]
+        coinPriceBought = float(coinOrderInfo['price'])
+        coinOrderQty = float(coinOrderInfo['qty'])
+        break
+    except:
+        log("Error getting data from Binance servers, retrying.")
 
 log("Calculate price to sell at and round.")
 # find price to sell coins at
