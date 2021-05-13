@@ -35,12 +35,14 @@ def marketSell(amountSell):
 def topupBNB(min_balance, topup):
     # Top up BNB balance if it drops below minimum specified balance
     bnb_balance = client.get_asset_balance(asset='BNB')
+    balance=str(bnb_balance['free'])
+    print("You have "+balance+" BNB in your wallet")    
     bnb_balance = float(bnb_balance['free'])
     balancePair = 'BNB' + str(quotedCoin)
     if bnb_balance < min_balance:
         qty = round(topup - bnb_balance, 2)
-        print("Topping up BNB wallet to avoid transaction fees")
-        log("Getting more BNB to top-up wallet")
+        print("Topping up BNB wallet with "+str(qty)+" BNB to avoid transaction fees")
+        log("Getting "+str(qty)+" more BNB to top-up wallet")
         order = client.order_market_buy(symbol=balancePair, quantity=qty)
         return order
     return False
