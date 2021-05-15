@@ -198,7 +198,8 @@ print('''
 print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(AmountToSell)))
 print("Investing amount in USD: {}".format(float_to_string((in_USD * AmountToSell), 2)))
 log("Waiting for trading pair input.")
-tradingPair = input("\nCoin pair: ").upper() + quotedCoin
+tradedCoin = input("\nCoin pair: ").upper()
+tradingPair = tradedCoin + quotedCoin
 
 # get price for coin
 averagePrice = 0
@@ -272,8 +273,10 @@ while not(orderCompleted):
 # when order compelted reset to false for next order
 orderCompleted = False
 
-print('Buy order has been made!')
-log("Buy order successfully made.")
+message = 'Buy order has been made: bougth {} {} at price {} {}!'
+message = message.format(coinOrderQty,tradedCoin,coinPriceBought,quotedCoin)
+print(message)
+log(message)
 
 # once finished waiting for buy order we can process the sell order
 print('Processing sell order.')
