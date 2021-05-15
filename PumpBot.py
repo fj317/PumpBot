@@ -211,7 +211,7 @@ if averagePrice == 0:
         averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
     except:
         print("Unable to retrieve the price of pair "+ tradingPair)
-        sys.exit()
+        quitProgram()
 
 log("Calculating amount of coin to buy.")
 # calculate amount of coin to buy
