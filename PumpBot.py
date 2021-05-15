@@ -343,10 +343,19 @@ while not(orderCompleted):
 print("Sell order has been filled!")
 log("Sell order has been filled.")
 
+coinPriceSold=float(order["cummulativeQuoteQty"])
+message = 'Sell order has been completed: sold {} {} at price {} {}!'
+message = message.format(coinOrderQty,tradedCoin,coinPriceSold,quotedCoin)
+print(message)
+log(message)
+
 newQuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
 profit = newQuotedBalance - QuotedBalance
-print("Profit made: " + str(profit))
-log("Profit made: " + str(profit))
+
+message = 'Profit made: {} {} = {} {}'
+message = message.format(profit,tradedCoin,profit*in_USD,"USD")
+print(message)
+log(message)
 
 # wait for Enter to close
 input("\nPress Enter to Exit...")
