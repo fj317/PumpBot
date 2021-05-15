@@ -303,7 +303,7 @@ if Buy_Timeout:
         #I did not buy anything, therefore stop here
         print("Did not succeed to buy")
         log("Did not succeed to buy")
-        sys.exit()
+        quitProgram()
 
 # when order compelted reset to false for next order
 orderCompleted = False
