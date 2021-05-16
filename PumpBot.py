@@ -343,7 +343,14 @@ priceToSell = coinPriceBought * profitMargin
 roundedPriceToSell = float_to_string(priceToSell, int(- math.log10(minPrice)))
 
 # get stop price
-stopPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice)))
+if stopLoss <= 1:
+    # place ther trigger at half way between coinPriceBought and stopLimitPrice
+    triggerThreshold = (1+stopLoss)/2
+else:
+    # place ther trigger above coinPriceBought, at half distance (coinPriceBought-stopLimitPrice)
+    triggerThreshold = (3*stopLoss-1)/2
+stopPrice = float_to_string(triggerThreshold * coinPriceBought, int(- math.log10(minPrice)))
+stopLimitPrice = float_to_string(stopLoss * coinPriceBought, int(- math.log10(minPrice)))
 log("Attempting to create sell order.")
 try:
     # oco order (with stop loss)
@@ -353,7 +360,7 @@ try:
         side=SIDE_SELL,
         price=roundedPriceToSell,
         stopPrice=stopPrice,
-        stopLimitPrice=stopPrice,
+        stopLimitPrice=stopLimitPrice,
         stopLimitTimeInForce=TIME_IN_FORCE_GTC
     )
 except BinanceAPIException as e:
