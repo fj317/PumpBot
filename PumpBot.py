@@ -209,7 +209,12 @@ for ticker in averagePrices:
     if ticker["symbol"] == tradingPair:
         averagePrice = ticker["wAvgPrice"]
 # if average price fails then get the current price of the trading pair (backup in case average price fails)
-if averagePrice == 0: averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
+if averagePrice == 0:
+    try:
+        averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
+    except:
+        print("Unable to retrieve the price of pair "+ tradingPair)
+        quitProgram()
 
 log("Calculating amount of coin to buy.")
 # calculate amount of coin to buy
