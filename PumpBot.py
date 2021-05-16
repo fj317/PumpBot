@@ -35,12 +35,14 @@ def marketSell(amountSell):
 def topupBNB(min_balance, topup):
     # Top up BNB balance if it drops below minimum specified balance
     bnb_balance = client.get_asset_balance(asset='BNB')
+    balance=str(bnb_balance['free'])
+    print("You have "+balance+" BNB in your wallet")    
     bnb_balance = float(bnb_balance['free'])
     balancePair = 'BNB' + str(quotedCoin)
     if bnb_balance < min_balance:
         qty = round(topup - bnb_balance, 2)
-        print("Topping up BNB wallet to avoid transaction fees")
-        log("Getting more BNB to top-up wallet")
+        print("Topping up BNB wallet with "+str(qty)+" BNB to avoid transaction fees")
+        log("Getting "+str(qty)+" more BNB to top-up wallet")
         order = client.order_market_buy(symbol=balancePair, quantity=qty)
         return order
     return False
@@ -99,6 +101,7 @@ profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
 endpoint = data['endpoint']
+fiatcurrency = data['fiatcurrency']
 log("config.json settings successfully loaded.")
 
 # check we have the latest version
@@ -159,7 +162,7 @@ for ticker in tickers:
 # getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
-in_USD = float((data['bpi']['USD']['rate_float']))
+in_USD = float((data['bpi'][fiatcurrency]['rate_float']))
 print("Sucessfully cached " + quotedCoin + " pairs!")
 log("Sucessfully cached quoted coin pairs.")
 
@@ -196,17 +199,21 @@ print('''
                          (_)                          ''')
 # wait until coin input
 print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(AmountToSell)))
-print("Investing amount in USD: {}".format(float_to_string((in_USD * AmountToSell), 2)))
+print("Investing amount in "+fiatcurrency+": {}".format(float_to_string((in_USD * AmountToSell), 2)))
 log("Waiting for trading pair input.")
 tradingPair = input("\nCoin pair: ").upper() + quotedCoin
 
 # get price for coin
-averagePrice = 0
-for ticker in averagePrices:
-    if ticker["symbol"] == tradingPair:
-        averagePrice = ticker["wAvgPrice"]
+x=next((ticker for ticker in averagePrices if ticker["symbol"] == tradingPair), {"symbol": "", "wAvgPrice":0})
+averagePrice = x["wAvgPrice"]
+
 # if average price fails then get the current price of the trading pair (backup in case average price fails)
-if averagePrice == 0: averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
+if averagePrice == 0:
+    try:
+        averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
+    except:
+        print("Unable to retrieve the price of pair "+ tradingPair)
+        quitProgram()
 
 log("Calculating amount of coin to buy.")
 # calculate amount of coin to buy
