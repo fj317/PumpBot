@@ -202,7 +202,8 @@ print('''
 print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(AmountToSell)))
 print("Investing amount in "+fiatcurrency+": {}".format(float_to_string((in_USD * AmountToSell), 2)))
 log("Waiting for trading pair input.")
-tradingPair = input("\nCoin pair: ").upper() + quotedCoin
+tradedCoin = input("\nCoin pair: ").upper()
+tradingPair = tradedCoin + quotedCoin
 
 # get price for coin
 x=next((ticker for ticker in averagePrices if ticker["symbol"] == tradingPair), {"symbol": "", "wAvgPrice":0})
@@ -275,6 +276,19 @@ else:
     
 # waits until the buy order has been confirmed
 print("Waiting for coin to buy...")
+while not(orderCompleted):
+    pass
+# when order compelted reset to false for next order
+orderCompleted = False
+
+message = 'Buy order has been made: bought {} {} at price {} {}!'
+message = message.format(coinOrderQty,tradedCoin,coinPriceBought,quotedCoin)
+print(message)
+log(message)
+
+# once finished waiting for buy order we can process the sell order
+print('Processing sell order.')
+log("Processing sell order.")
 Buy_Timeout = False
 start_time = time.time()
 while not(orderCompleted) and not(Buy_Timeout):
@@ -370,10 +384,20 @@ while not(orderCompleted):
 print("Sell order has been filled!")
 log("Sell order has been filled.")
 
+coinPriceSold=float(order["cummulativeQuoteQty"])
+message = 'Sell order has been completed: sold {} {} at price {} {}!'
+message = message.format(coinOrderQty,tradedCoin,coinPriceSold,quotedCoin)
+print(message)
+log(message)
+
 newQuotedBalance = float(client.get_asset_balance(asset=quotedCoin)['free'])
 profit = newQuotedBalance - QuotedBalance
-print("Profit made: " + str(profit))
-log("Profit made: " + str(profit))
+profit=float_to_string(profit, 2+int(- math.log10(minPrice)))
+
+message = 'Profit made: {} {} = {:.2f} {}'
+message = message.format(profit,tradedCoin,profit*in_USD,"USD")
+print(message)
+log(message)
 
 # wait for Enter to close
 input("\nPress Enter to Exit...")
