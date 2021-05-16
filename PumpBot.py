@@ -99,6 +99,7 @@ profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
 endpoint = data['endpoint']
+fiatcurrency = data['fiatcurrency']
 log("config.json settings successfully loaded.")
 
 # check we have the latest version
@@ -159,7 +160,7 @@ for ticker in tickers:
 # getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
-in_USD = float((data['bpi']['USD']['rate_float']))
+in_USD = float((data['bpi'][fiatcurrency]['rate_float']))
 print("Sucessfully cached " + quotedCoin + " pairs!")
 log("Sucessfully cached quoted coin pairs.")
 
@@ -196,7 +197,7 @@ print('''
                          (_)                          ''')
 # wait until coin input
 print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(AmountToSell)))
-print("Investing amount in USD: {}".format(float_to_string((in_USD * AmountToSell), 2)))
+print("Investing amount in "+fiatcurrency+": {}".format(float_to_string((in_USD * AmountToSell), 2)))
 log("Waiting for trading pair input.")
 tradingPair = input("\nCoin pair: ").upper() + quotedCoin
 
