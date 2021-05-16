@@ -101,6 +101,7 @@ profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
 endpoint = data['endpoint']
+buyTimeout = data["buyTimeout"]
 fiatcurrency = data['fiatcurrency']
 log("config.json settings successfully loaded.")
 
@@ -274,8 +275,43 @@ else:
     
 # waits until the buy order has been confirmed
 print("Waiting for coin to buy...")
-while not(orderCompleted):
-    pass
+Buy_Timeout = False
+start_time = time.time()
+while not(orderCompleted) and not(Buy_Timeout):
+    elapsed_time = time.time() - start_time
+    Buy_Timeout = (elapsed_time >= buyTimeout)
+
+# once bought we can get info of order
+log("Getting buy order information.")
+
+# fix problem with getting data from binance servers
+while True:
+    try:
+        OrderStatus=order["status"]
+        OrderID=order["clientOrderId"]
+        if len(order["fills"]): #if I did not buy anything, fills is empty
+            coinOrderInfo = order["fills"][0]
+            coinPriceBought = float(coinOrderInfo['price'])
+            coinOrderQty = float(coinOrderInfo['qty'])
+        else:
+            coinPriceBought = 0
+            coinOrderQty = 0            
+        break
+    except:
+        log("Error getting data from Binance servers, retrying.")
+
+# if I got out by timeout
+if Buy_Timeout:
+    # cancel the order
+    result = client.cancel_order(
+        symbol=tradingPair,
+        origClientOrderId =OrderID)
+    if ORDER_STATUS_NEW in OrderStatus:
+        #I did not buy anything, therefore stop here
+        print("Did not succeed to buy")
+        log("Did not succeed to buy")
+        quitProgram()
+
 # when order compelted reset to false for next order
 orderCompleted = False
 
@@ -285,19 +321,6 @@ log("Buy order successfully made.")
 # once finished waiting for buy order we can process the sell order
 print('Processing sell order.')
 log("Processing sell order.")
-
-# once bought we can get info of order
-log("Getting buy order information.")
-
-# fix problem with getting data from binance servers
-while True:
-    try:
-        coinOrderInfo = order["fills"][0]
-        coinPriceBought = float(coinOrderInfo['price'])
-        coinOrderQty = float(coinOrderInfo['qty'])
-        break
-    except:
-        log("Error getting data from Binance servers, retrying.")
 
 log("Calculate price to sell at and round.")
 # find price to sell coins at
