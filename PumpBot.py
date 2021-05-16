@@ -402,7 +402,7 @@ profit = newQuotedBalance - QuotedBalance
 profit=float_to_string(profit, 2+int(- math.log10(minPrice)))
 
 message = 'Profit made: {} {} = {:.2f} {}'
-message = message.format(profit,tradedCoin,profit*in_USD,"USD")
+message = message.format(profit,tradedCoin,profit*in_USD,fiatcurrency)
 print(message)
 log(message)
 
