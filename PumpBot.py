@@ -35,12 +35,14 @@ def marketSell(amountSell):
 def topupBNB(min_balance, topup):
     # Top up BNB balance if it drops below minimum specified balance
     bnb_balance = client.get_asset_balance(asset='BNB')
+    balance=str(bnb_balance['free'])
+    print("You have "+balance+" BNB in your wallet")    
     bnb_balance = float(bnb_balance['free'])
     balancePair = 'BNB' + str(quotedCoin)
     if bnb_balance < min_balance:
         qty = round(topup - bnb_balance, 2)
-        print("Topping up BNB wallet to avoid transaction fees")
-        log("Getting more BNB to top-up wallet")
+        print("Topping up BNB wallet with "+str(qty)+" BNB to avoid transaction fees")
+        log("Getting "+str(qty)+" more BNB to top-up wallet")
         order = client.order_market_buy(symbol=balancePair, quantity=qty)
         return order
     return False
@@ -99,6 +101,8 @@ profitMargin = float(data['profitMargin']) / 100
 stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
 endpoint = data['endpoint']
+buyTimeout = data["buyTimeout"]
+fiatcurrency = data['fiatcurrency']
 log("config.json settings successfully loaded.")
 
 # check we have the latest version
@@ -159,7 +163,7 @@ for ticker in tickers:
 # getting btc conversion
 response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 data = response.json()
-in_USD = float((data['bpi']['USD']['rate_float']))
+in_USD = float((data['bpi'][fiatcurrency]['rate_float']))
 print("Sucessfully cached " + quotedCoin + " pairs!")
 log("Sucessfully cached quoted coin pairs.")
 
@@ -196,18 +200,22 @@ print('''
                          (_)                          ''')
 # wait until coin input
 print("\nInvesting amount for {}: {}".format(quotedCoin, float_to_string(AmountToSell)))
-print("Investing amount in USD: {}".format(float_to_string((in_USD * AmountToSell), 2)))
+print("Investing amount in "+fiatcurrency+": {}".format(float_to_string((in_USD * AmountToSell), 2)))
 log("Waiting for trading pair input.")
 tradedCoin = input("\nCoin pair: ").upper()
 tradingPair = tradedCoin + quotedCoin
 
 # get price for coin
-averagePrice = 0
-for ticker in averagePrices:
-    if ticker["symbol"] == tradingPair:
-        averagePrice = ticker["wAvgPrice"]
+x=next((ticker for ticker in averagePrices if ticker["symbol"] == tradingPair), {"symbol": "", "wAvgPrice":0})
+averagePrice = x["wAvgPrice"]
+
 # if average price fails then get the current price of the trading pair (backup in case average price fails)
-if averagePrice == 0: averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
+if averagePrice == 0:
+    try:
+        averagePrice = float(client.get_avg_price(symbol=tradingPair)['price'])
+    except:
+        print("Unable to retrieve the price of pair "+ tradingPair)
+        quitProgram()
 
 log("Calculating amount of coin to buy.")
 # calculate amount of coin to buy
@@ -273,7 +281,7 @@ while not(orderCompleted):
 # when order compelted reset to false for next order
 orderCompleted = False
 
-message = 'Buy order has been made: bougth {} {} at price {} {}!'
+message = 'Buy order has been made: bought {} {} at price {} {}!'
 message = message.format(coinOrderQty,tradedCoin,coinPriceBought,quotedCoin)
 print(message)
 log(message)
@@ -281,6 +289,11 @@ log(message)
 # once finished waiting for buy order we can process the sell order
 print('Processing sell order.')
 log("Processing sell order.")
+Buy_Timeout = False
+start_time = time.time()
+while not(orderCompleted) and not(Buy_Timeout):
+    elapsed_time = time.time() - start_time
+    Buy_Timeout = (elapsed_time >= buyTimeout)
 
 # once bought we can get info of order
 log("Getting buy order information.")
@@ -288,12 +301,40 @@ log("Getting buy order information.")
 # fix problem with getting data from binance servers
 while True:
     try:
-        coinOrderInfo = order["fills"][0]
-        coinPriceBought = float(coinOrderInfo['price'])
-        coinOrderQty = float(coinOrderInfo['qty'])
+        OrderStatus=order["status"]
+        OrderID=order["clientOrderId"]
+        if len(order["fills"]): #if I did not buy anything, fills is empty
+            coinOrderInfo = order["fills"][0]
+            coinPriceBought = float(coinOrderInfo['price'])
+            coinOrderQty = float(coinOrderInfo['qty'])
+        else:
+            coinPriceBought = 0
+            coinOrderQty = 0            
         break
     except:
         log("Error getting data from Binance servers, retrying.")
+
+# if I got out by timeout
+if Buy_Timeout:
+    # cancel the order
+    result = client.cancel_order(
+        symbol=tradingPair,
+        origClientOrderId =OrderID)
+    if ORDER_STATUS_NEW in OrderStatus:
+        #I did not buy anything, therefore stop here
+        print("Did not succeed to buy")
+        log("Did not succeed to buy")
+        quitProgram()
+
+# when order compelted reset to false for next order
+orderCompleted = False
+
+print('Buy order has been made!')
+log("Buy order successfully made.")
+
+# once finished waiting for buy order we can process the sell order
+print('Processing sell order.')
+log("Processing sell order.")
 
 log("Calculate price to sell at and round.")
 # find price to sell coins at
