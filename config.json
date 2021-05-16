@@ -6,7 +6,9 @@
     "profitMargin": 150,
     "stopLoss": 0.90,
     "endpoint": "default",
-    "fiatcurrency": "EUR",
+	  "buyTimeout": 5,
+	  "sellTimeout": 10,
+    "fiatcurrency": "USD",
 
 
 
