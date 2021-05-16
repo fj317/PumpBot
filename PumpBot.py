@@ -204,10 +204,9 @@ log("Waiting for trading pair input.")
 tradingPair = input("\nCoin pair: ").upper() + quotedCoin
 
 # get price for coin
-averagePrice = 0
-for ticker in averagePrices:
-    if ticker["symbol"] == tradingPair:
-        averagePrice = ticker["wAvgPrice"]
+x=next((ticker for ticker in averagePrices if ticker["symbol"] == tradingPair), {"symbol": "", "wAvgPrice":0})
+averagePrice = x["wAvgPrice"]
+
 # if average price fails then get the current price of the trading pair (backup in case average price fails)
 if averagePrice == 0:
     try:
