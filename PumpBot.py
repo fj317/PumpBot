@@ -12,7 +12,8 @@ import time
 import urllib
 import os
 import ssl
-import time
+from threading import Thread
+from pynput.keyboard import Key, Listener
 
 # UTILS
 def float_to_string(number, precision=10):
@@ -67,6 +68,13 @@ def quitProgram():
     # quit program
     sys.exit()
 
+Panic= False
+def on_press(key):
+    global Panic
+    if key == Key.space:
+        Panic=True
+        return False
+   
 # make log file
 logfile = open("log.txt", "w+")
 
@@ -102,6 +110,7 @@ stopLoss = float(data['stopLoss'])
 currentVersion = float(data['currentVersion'])
 endpoint = data['endpoint']
 buyTimeout = data["buyTimeout"]
+sellTimeout = data["sellTimeout"]
 fiatcurrency = data['fiatcurrency']
 log("config.json settings successfully loaded.")
 
@@ -287,7 +296,7 @@ print(message)
 log(message)
 
 # once finished waiting for buy order we can process the sell order
-print('Processing sell order.')
+print('Processing sell order.\nIn any moment press SPACEBAR to sell and exit.')
 log("Processing sell order.")
 Buy_Timeout = False
 start_time = time.time()
@@ -386,11 +395,37 @@ log("Sell order successfully made.")
 webbrowser.open('https://www.binance.com/en/trade/' + tradingPair)
 
 print("Waiting for sell order to be completed...")
-while not(orderCompleted):
-    pass
-print("Sell order has been filled!")
-log("Sell order has been filled.")
+listener = Listener(on_press=on_press)
+listener.start()
 
+Sell_Timeout = False
+start_time = time.time()
+while not(orderCompleted) and not(Sell_Timeout) and not (Panic):
+    elapsed_time = time.time() - start_time
+    Sell_Timeout = (elapsed_time >= sellTimeout)
+
+# if I got out by timeout
+if Sell_Timeout or Panic:
+    # cancel the present OCO order
+    OrderID=order["orders"][0]["clientOrderId"]
+    result = client.cancel_order(
+        symbol=tradingPair,
+        origClientOrderId=OrderID)
+    #place a sell to the market order
+    order = client.order_market_sell(
+        symbol=tradingPair,
+        quantity=coinOrderQty)
+    if Sell_Timeout:
+        print("Sell order by timeout has been filled!")
+        log("Sell order by timeout has been filled.")
+    else:
+        print("Sell order by user request!")
+        log("Sell order by user request.")
+        
+else:
+    print("Limit sell order has been filled!")
+    log("Limit sell order has been filled.")
+    
 coinPriceSold=float(order["cummulativeQuoteQty"])
 message = 'Sell order has been completed: sold {} {} at price {} {}!'
 message = message.format(coinOrderQty,tradedCoin,coinPriceSold,quotedCoin)
@@ -402,7 +437,7 @@ profit = newQuotedBalance - QuotedBalance
 profit=float_to_string(profit, 2+int(- math.log10(minPrice)))
 
 message = 'Profit made: {} {} = {:.2f} {}'
-message = message.format(profit,tradedCoin,profit*in_USD,fiatcurrency)
+message = message.format(profit,tradedCoin,float(profit)*in_USD,fiatcurrency)
 print(message)
 log(message)
 
