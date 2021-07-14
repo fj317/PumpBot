@@ -1,7 +1,8 @@
 ![PumpBot Logo](https://github.com/fj317/PumpBot/blob/master/resources/logo.jpg)
  A bot to use in a pump & dump event on Binance.com. 
  
- **Please note the bot is in heavy devleopment currently so be aware of errors. If you experience errors please check the issue tab to see whether it has been documented already. If not, open an issue and give as much detail to the error as you can!**
+ **No longer in active development.**
+
   
  ### Features
  - Speedy. 
